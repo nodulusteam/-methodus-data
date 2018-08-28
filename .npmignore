@@ -1,0 +1,5 @@
+*.ts
+lib/*.ts
+!*.d.ts
+logs
+tests
