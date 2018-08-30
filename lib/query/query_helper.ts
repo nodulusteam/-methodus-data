@@ -5,7 +5,7 @@ import { Log, LogClass, logger } from '../logger';
 import { Direction } from '../enums/direction';
 import { QueryFragmentElement } from '../../index';
 import * as _ from 'lodash';
-@LogClass(logger)
+ 
 export class QueryHelper {
     public arrayActions: Array<any>;
 
@@ -212,7 +212,7 @@ export class QueryHelper {
         }
     }
 
-    @Log()
+   
     public handleProject(keys: Array<string> | string, odm?: ODM) {
         let opProject = this.findOperator(Operator.$PROJECT);
         const keysArray = [keys].reduce((acc, v) => acc.concat(v), new Array());

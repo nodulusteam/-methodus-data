@@ -8,12 +8,12 @@ import { logger, Log, LogClass, } from './logger';
 const bluebird = require('bluebird');
 bluebird.promisifyAll(require('mongodb'));
 
-@LogClass(logger)
+
 export class DBHandler {
     public static connections: Map<string, mongo.Db> = new Map<string, mongo.Db>();
     private static connectionsPromises: Map<string, Promise<mongo.Db>> = new Map<string, Promise<mongo.Db>>();
     private static connectionPools: any = {};
-    private static config: any;
+    public static config: any;
     constructor() {
 
     }
@@ -53,7 +53,7 @@ export class DBHandler {
         return connection;
     }
 
-    @Log()
+
     public static async initConnection(config, connectionName?: string) {
         return new Promise((resolve, reject) => {
 
@@ -64,7 +64,8 @@ export class DBHandler {
 
             if (config.connections && config.connections[connectionName]) {
                 dbAddress = `${config.connections[connectionName].server}/${config.connections[connectionName].db}`;
-                const options = this.getDbOptions(config.connections[connectionName]);
+                const options: any = this.getDbOptions(config.connections[connectionName]);
+                options.useNewUrlParser = true;
                 logger.info(this, `initiating DB connection to: ${dbAddress}`, options);
                 mongo.MongoClient.connect(dbAddress,
                     options

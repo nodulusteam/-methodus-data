@@ -28,10 +28,9 @@ export function getOdm<T>(data: Array<{}> | {}): ODM<T> {
 
 
 
-@LogClass(logger)
 export class Odm {
 
-    //@Log(logger)
+   
     public static applyODM(odm: ODM, filter: any) {
         let propertyKey = filter.filter_by;
         if (!propertyKey) {

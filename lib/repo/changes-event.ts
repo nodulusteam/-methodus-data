@@ -9,7 +9,7 @@ import { DataChange, Changes as DataChanges } from '../changes';
  */
 export class ChangesEvent {
 
-    @Log()
+   
     public static findChanges(oldRecord: object, newRecord: object) {
 
         let dataChanged = new DataChange();
@@ -21,7 +21,7 @@ export class ChangesEvent {
         return dataChanged;
     }
 
-    @Log()
+   
     private static getDifferences(oldValue: object, newValue: object) {
         let differences = diff(oldValue, newValue);
         if (Object.keys(differences).length > 0) {

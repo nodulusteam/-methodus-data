@@ -1,7 +1,7 @@
 import { Connection, Repo, Model, Field, Virtual, Lookup, ObjectId, IsoDate, ReturnType, Transform } from '../../index';
 
 @Model('Case', Transform.Automatic)
-@Connection('alert')
+@Connection('default')
 export class Case extends Repo<Case> {
 
     @ObjectId()

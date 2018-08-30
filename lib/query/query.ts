@@ -63,8 +63,7 @@ export function QueryFragment(filter): any {
 
 /** the ObjectId decorator registers the model with the odm
  *  @param {string} name - the name of the db (mongo) collection.
- */
-@LogClass(logger)
+ */ 
 export class Query {
     private transformAfterRun: boolean = false;
     private unTransformAfterRun: boolean = false;
@@ -281,7 +280,7 @@ export class Query {
         }
     }
 
-    @Log()
+   
     public toQuery(options?: any) {
         return this.queryHelper.arrayActions;
     }
@@ -423,7 +422,7 @@ export class Query {
      *
      * @param filterHolder Add filter to the predicate, no need to prepare it from outside
      */
-    @Log()
+   
     public filter(filterHolder: QueryFragmentElement | any): Query {
 
 
