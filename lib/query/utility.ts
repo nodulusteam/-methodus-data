@@ -2,10 +2,10 @@ import * as _ from 'lodash';
 import { Odm } from '../odm';
 import { logger, Log, LogClass } from '../logger';
 
-@LogClass(logger)
+ 
 export class QueryUtility {
     /**  */
-    @Log()
+   
     public static convertObjectForUpdate(dataToUpdate) {
         const groupedByDollar = _.groupBy(_.map(dataToUpdate, (value, key) => {
             return { [key]: value };

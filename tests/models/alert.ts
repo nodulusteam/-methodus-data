@@ -2,7 +2,7 @@ import { Connection, Repo, Model, Field, Virtual, Lookup, Weight, ObjectId, IsoD
 
 
 @Model('Alert', Transform.Automatic)
-@Connection('alert')
+@Connection('default')
 export class Alert extends Repo<Alert> {
 
     @ObjectId()

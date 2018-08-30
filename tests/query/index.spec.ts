@@ -60,11 +60,14 @@ describe('check the following methods: between, and, or, paging, filter', () => 
             }).or({
                 'severity': 'medium'
             }).paging(1, 5);
-        const result = await query.run();
 
+        try {
+            const result = await query.run();
+            expect(result.results.length).to.equal(5);
+        } catch (error) {
+            console.error(error);
+        }
 
-
-        expect(result.results.length).to.equal(5);
 
     });
 
@@ -226,7 +229,7 @@ describe('check the following methods: between, and, or, paging, filter', () => 
 
     it('filter all Case by company id and status id in close', async () => {
 
-        const connection:any = await getConnection();
+        const connection: any = await getConnection();
         let cases = [{
             "_company_id": "POC",
             "_refid": "",

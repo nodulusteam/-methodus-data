@@ -5,16 +5,16 @@ import { Query } from '../query/query';
 import { Odm, getOdm } from '../odm';
 import { ODM } from '../odm-models';
 import { Direction, ReturnType, TransformDirection, Transform } from '../enums/';
-import { logger, Log, LogClass } from '../logger';
+import { logger } from '../logger';
 import { ObjectID } from 'mongodb';
 import { MethodEvent, ServerType, SecurityContext } from '@methodus/server';
 import { DataChangeEvent, DataChange } from '../changes';
 import * as _ from 'lodash';
 
- 
 
 
-@LogClass(logger)
+
+
 export abstract class Repo<T> /*implements IRepo*/ {
     private dataArray: any;
     private odm: Odm;
@@ -62,7 +62,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
      * @param odm  - decleare the properties of the class and collection name
      * @param data - data to trasnform into the database, for example => alert.title = alert_title.
      */
-    @Log()
+
     private static transformIn(odm: ODM, data) {
         if (odm && odm.transform === Transform.Automatic) {
             data = Odm.transform(odm, data, TransformDirection.IN);
@@ -75,7 +75,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
      * @param odm - decleare the properties of the class and collection name
      * @param data - data to trasnform out from the database, for example => alert_title = alert.title.
      */
-    @Log()
+
     private static transformOut(odm: ODM, data) {
         if ((odm && odm.transform === Transform.Automatic) && data) {
             data = Odm.transform(odm, data, TransformDirection.OUT);
@@ -88,7 +88,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
      * @param data - data to save into collection
      * @param dbConnection - connection to database
      */
-    @Log()
+
     private static async _save(odm: ODM, data, dbConnection: any) {
         data = this.transformIn(odm, data);
         data = this.cleanOdm(data);
@@ -105,16 +105,16 @@ export abstract class Repo<T> /*implements IRepo*/ {
         } else {
             result = this.transformOut(odm, data);
         }
-        if (odm.broadcastChanges) {
-            const insertedRecordWithId = Object.assign({ id: result.id }, result);
-            MethodEvent.emit('create::' + odm.collectionName,
-                new DataChangeEvent(odm.collectionName, null, insertedRecordWithId), ServerType.RabbitMQ, this.getExchanges(odm));
-        }
+        // if (odm.broadcastChanges) {
+        //     const insertedRecordWithId = Object.assign({ id: result.id }, result);
+        //     MethodEvent.emit('create::' + odm.collectionName,
+        //         new DataChangeEvent(odm.collectionName, null, insertedRecordWithId), ServerType.RabbitMQ, this.getExchanges(odm));
+        // }
         return Array.isArray(result) && result.length === 1 ? result[0] : result;
     }
 
     private static getExchanges(odm) {
-       
+
         return null;
     }
     /**
@@ -123,7 +123,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
     * @param data - data to save into collection
     * @param dbConnection - connection to database
     */
-    @Log()
+
     private static async _insert(odm: ODM, data: {} | Array<{}>, dbConnection: any): Promise<{} | Array<{}>> {
         data = this.transformIn(odm, data);
         data = this.cleanOdm(data);
@@ -132,11 +132,11 @@ export abstract class Repo<T> /*implements IRepo*/ {
         result = this.transformOut(odm, result.ops);
 
         const inserted = Array.isArray(result) && result.length === 1 ? result[0] : result;
-        if (odm.broadcastChanges) {
-            MethodEvent.emit('create::' + odm.collectionName,
-                new DataChangeEvent(odm.collectionName, null, inserted), ServerType.RabbitMQ, this.getExchanges(odm));
+        // if (odm.broadcastChanges) {
+        //     MethodEvent.emit('create::' + odm.collectionName,
+        //         new DataChangeEvent(odm.collectionName, null, inserted), ServerType.RabbitMQ, this.getExchanges(odm));
 
-        }
+        // }
         return inserted;
     }
 
@@ -144,29 +144,28 @@ export abstract class Repo<T> /*implements IRepo*/ {
      *
      * @param data - data to insert to database,
      */
-    @Log()
+
     public static async save<T>(data: {}) {
         let odm = getOdm<T>(data) || this['odm'] as ODM;
         let connection = await DBHandler.getConnection(odm.connectionName);
         return await Repo._save(odm, data, connection);
     }
-    @Log()
+
     public async save() {
         let odm = getOdm<T>(this);
         return await Repo._save(odm, this, await this.getConnection(odm.connectionName));
     }
-
     /**
      *
      * @param data - data to insert to database
      */
-    @Log()
+
     public static async insert<T>(data: T | Array<T>) {
         let odm = getOdm<T>(data) || this['odm'] as ODM;
         let connection = await DBHandler.getConnection(odm.connectionName);
         return await Repo._insert(odm, data, connection) as T;
     }
-    @Log()
+
     public async insert() {
         let odm = getOdm<T>(this);
         const data = this.dataArray || this;
@@ -178,7 +177,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
      *
      * @param _id - get document by id
      */
-    @Log()
+
     public static async get(_id: string) {
         let odm: ODM = getOdm(this)
         let connection = await DBHandler.getConnection(odm.connectionName);
@@ -206,7 +205,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
         });
     }
 
-    @Log()
+
     public static async update<T>(filter: any, dataToUpdate: T, _upsert: boolean = false, replace: boolean = false) {
         //get odm and clean it from dataToUpdate
         let odm: ODM = getOdm<T>(dataToUpdate) || this['odm'] as ODM;
@@ -243,17 +242,17 @@ export abstract class Repo<T> /*implements IRepo*/ {
         if (recordBefore && recordBefore.ok && recordBefore.value) {
             const recordBeforeTransformed = this.transformOut(odm, recordBefore.value);
             const finalResult = replace ? dataToUpdate : this.smartMerge(recordBeforeTransformed, dataToUpdate);
-            if (odm.broadcastChanges) {
-                const changesData = ChangesEvent.findChanges(recordBeforeTransformed, finalResult);
-                MethodEvent.emit('changes::' + odm.collectionName,
-                    new DataChangeEvent(odm.collectionName, changesData, finalResult), ServerType.RabbitMQ, this.getExchanges(odm));
-            }
+            // if (odm.broadcastChanges) {
+            //     const changesData = ChangesEvent.findChanges(recordBeforeTransformed, finalResult);
+            //     MethodEvent.emit('changes::' + odm.collectionName,
+            //         new DataChangeEvent(odm.collectionName, changesData, finalResult), ServerType.RabbitMQ, this.getExchanges(odm));
+            // }
             return finalResult;
         }
 
     }
 
-    @Log()
+
     public static async updateMany<T>(filter: any, updateData: T, _upsert: boolean = false) {
         let odm: any = getOdm<T>(updateData) || this['odm'] as ODM;
         let updateDataTransformed = this.transformIn(odm, updateData);
@@ -289,20 +288,20 @@ export abstract class Repo<T> /*implements IRepo*/ {
         } else {
             result = await connection.collection(odm.collectionName).deleteMany(updatedFilter);
         }
-        if (odm.broadcastChanges) {
-            MethodEvent.emit('delete::' + odm.collectionName,
-                new DataChangeEvent(odm.collectionName, result, null), ServerType.RabbitMQ, this.getExchanges(odm));
+        // if (odm.broadcastChanges) {
+        //     MethodEvent.emit('delete::' + odm.collectionName,
+        //         new DataChangeEvent(odm.collectionName, result, null), ServerType.RabbitMQ, this.getExchanges(odm));
 
-        }
+        // }
         return result;
     }
 
-    @Log()
+
     public static async query(query: Query, returnType?: ReturnType) {
         return await query.run(returnType);
     }
 
-    // @Log()
+    
     // private static async publishEvent<T>(query, updateData, odm, dataId: string = null, securityContext?: Tmla.ISecurityContext) {
     //     try {
     //         let changesData = await ChangesEvent.findChanges<T>(query, updateData, dataId);

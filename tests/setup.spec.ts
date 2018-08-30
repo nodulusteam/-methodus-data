@@ -8,7 +8,24 @@ const config: any = {
         }
     }
 };
+
+import { DBHandler } from '../lib/connect';
+DBHandler.config = {
+    connections: {
+        'default': {
+            server: 'mongodb://localhost:27017',
+            db: 'test',
+            poolSize: 10,
+            ssl: false,
+            exchanges: ['event-bus', 'cache-bus'],
+            readPreference: 'primaryPreferred'
+        }
+    }
+
+}
+
 import * as mongo from 'mongodb';
+
 const collectionsNames = ['Alert', 'Case', 'Company', 'User'];
 let connection: any = null;
 

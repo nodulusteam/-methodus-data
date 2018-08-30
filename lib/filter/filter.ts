@@ -17,7 +17,7 @@ export interface ITimeObject {
 
 
 
-@LogClass(logger)
+ 
 export class FilterServerUtility {
     private emptyObjectString: any = JSON.stringify({});
     private model: any;
@@ -216,7 +216,7 @@ export class FilterServerUtility {
 
  
 
-    @Log()
+   
     public build(queryFilters?, query?, literal?): any { //literal is a patch for when we use fields like 'alert.title' and need to treat it as a flat property
 
         let filters = [],
@@ -447,31 +447,7 @@ export class FilterServerUtility {
 
   
 
-    private prepareSingleCompany(options: any): Query {
-        return new Query(this.model || options.tableName).filter({
-            [options['index']]: options.company_crit[0]
-        });
-    }
-    /**matching multiple company for example,
-     * [{"$match":{"$and":[{"id":{"$in":["POC","Maxim","IRIT","HAS","Gamma","GOD"]}}]
-     */
+ 
 
-
-
-    private prepareMultiCompany(options: any) {
-        return new Query(this.model || options.tableName).filter({
-            [options['index']]: {
-                $in: options.company_crit
-            }
-        });
-    }
-    /**
-     *
-     * return empty query, all customers, we want all company results.
-     */
-
-
-    private prepareAllCompany(options: any) {
-        return new Query(this.model || options.tableName);
-    }
+  
 }

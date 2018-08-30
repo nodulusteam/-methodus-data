@@ -1,6 +1,6 @@
 {
   "name": "@methodus/data",
-  "version": "4.0.63",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,14 +14,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/mongodb": "~3.0.5",
+    "@types/mongodb": "^3.1.4",
     "debug": "^2.6.8",
     "escape-string-regexp": "^1.0.5",
     "flat": "^4.0.0",
     "generic-pool": "^3.3.0",
     "is-buffer": "^1.1.6",
     "lodash": "^4.17.4",
-    "mongodb": "~3.0.0",
+    "mongodb": "^3.1.4",
     "obj-stringify": "^1.0.0",
     "object-diff": "0.0.4",
     "reflect-metadata": "^0.1.10"
