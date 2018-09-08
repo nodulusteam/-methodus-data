@@ -45,9 +45,12 @@ export abstract class Repo<T> /*implements IRepo*/ {
             throw (new Error('class model information is missing, are you using a data model?'))
     }
 
-    private static cleanOdm(data) {
+    public static cleanOdm(data) {
         delete data['odm'];
         delete data['modelType'];
+        try {
+            delete data.__proto__['odm'];
+        } catch (e) { }
         return data;
     }
     /**
@@ -301,7 +304,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
         return await query.run(returnType);
     }
 
-    
+
     // private static async publishEvent<T>(query, updateData, odm, dataId: string = null, securityContext?: Tmla.ISecurityContext) {
     //     try {
     //         let changesData = await ChangesEvent.findChanges<T>(query, updateData, dataId);
