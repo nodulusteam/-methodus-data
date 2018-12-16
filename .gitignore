@@ -7,3 +7,7 @@ node_modules
 *.log
 /**/*.d.ts
 
+.nyc_output/
+.scannerwork/
+coverage/
+yarn.lock
