@@ -1,0 +1,38 @@
+{
+  "name": "@methodus/data",
+  "version": "1.0.3",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && mocha --timeout 10000 tests/**/*.spec.js --recursive"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/mongodb": "^3.1.4",
+    "debug": "^2.6.8",
+    "escape-string-regexp": "^1.0.5",
+    "flat": "^4.0.0",
+    "generic-pool": "^3.3.0",
+    "is-buffer": "^1.1.6",
+    "lodash": "^4.17.4",
+    "mongodb": "^3.1.4",
+    "obj-stringify": "^1.0.0",
+    "object-diff": "0.0.4",
+    "reflect-metadata": "^0.1.10"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.0",
+    "@types/lodash": "^4.14.116",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^10.0.0",
+    "chai": "^3.5.0",
+    "cross-env": "^5.0.5",
+    "logelas": "*",
+    "mocha": "^2.5.3",
+    "proxyquire-2": "1.0.7",
+    "sinon": "^4.4.9",
+    "typescript": "^2.5.2"
+  }
+}

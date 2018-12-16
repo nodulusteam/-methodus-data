@@ -1,0 +1,9 @@
+*.js
+*.js.map
+!/tests/config/*.js
+!/tests/data/*.js
+!/.vscode/*
+node_modules
+*.log
+/**/*.d.ts
+

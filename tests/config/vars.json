@@ -1,0 +1,7 @@
+{
+    "serverIP": "localhost",
+    "amqpIP": "localhost",
+    "mongoIP": "localhost",
+    "rethinkIP": "localhost",
+    "beachIP": "https://threatlake.test.att.com:9200"
+}
