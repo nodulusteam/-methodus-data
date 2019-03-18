@@ -5,6 +5,8 @@ import { ODM } from '../odm-models';
 import { ReturnType, TransformDirection, Transform } from '../enums/';
 import * as _ from 'lodash';
 import { logger } from '../../lib/logger';
+import { DataChangeEvent } from '../changes';
+import { DataEmitter, EventDataEmitter } from '../emitter';
 
 export abstract class Repo<T> /*implements IRepo*/ {
     private dataArray: any;
@@ -102,11 +104,11 @@ export abstract class Repo<T> /*implements IRepo*/ {
         } else {
             result = this.transformOut(odm, data);
         }
-        // if (odm.broadcastChanges) {
-        //     const insertedRecordWithId = Object.assign({ id: result.id }, result);
-        //     MethodEvent.emit('create::' + odm.collectionName,
-        //         new DataChangeEvent(odm.collectionName, null, insertedRecordWithId), ServerType.RabbitMQ, this.getExchanges(odm));
-        // }
+
+        const insertedRecordWithId = Object.assign({ id: result.id }, result);
+        EventDataEmitter.changes('create::' + odm.collectionName,
+            new DataChangeEvent(odm.collectionName, null, insertedRecordWithId));
+
         return Array.isArray(result) && result.length === 1 ? result[0] : result;
     }
 
@@ -129,11 +131,11 @@ export abstract class Repo<T> /*implements IRepo*/ {
         result = this.transformOut(odm, result.ops);
 
         const inserted = Array.isArray(result) && result.length === 1 ? result[0] : result;
-        // if (odm.broadcastChanges) {
-        //     MethodEvent.emit('create::' + odm.collectionName,
-        //         new DataChangeEvent(odm.collectionName, null, inserted), ServerType.RabbitMQ, this.getExchanges(odm));
+        
+        EventDataEmitter.emit('create::' + odm.collectionName,
+            new DataChangeEvent(odm.collectionName, null, inserted));
 
-        // }
+    
         return inserted;
     }
 

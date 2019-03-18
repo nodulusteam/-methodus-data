@@ -8,3 +8,4 @@ export * from './lib/repo/';
 export * from './lib/interfaces/';
 export * from './lib/changes/';
 export * from './lib/odm';
+export * from './lib/emitter';
