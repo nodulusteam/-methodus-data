@@ -3,3 +3,12 @@ lib/*.ts
 !*.d.ts
 logs
 tests
+.nyc_output
+.scannerwork
+.vscode
+coverage
+sonar-project.properties
+
+
+
+
