@@ -92,7 +92,18 @@ export abstract class Repo<T> /*implements IRepo*/ {
         data = this.transformIn(odm, data);
         data = this.cleanOdm(data);
 
-        let result = await dbConnection.collection(odm.collectionName).save(data, { upsert: true });
+
+        // const recordBefore = await connection.collection(odm.collectionName)
+        // .findOneAndUpdate(filterTransformed,
+        //     replace ? dataToUpdateTransformed : { $set: dataToUpdateTransformed },
+        //     {
+        //         returnOriginal: true,
+        //         upsert: _upsert
+        //     });
+
+
+
+        let result = await dbConnection.collection(odm.collectionName).save(data, {  returnOriginal: true,upsert: true });
 
         if (Array.isArray(data)) {
             const dataArray = [data].
@@ -106,7 +117,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
         }
 
         const insertedRecordWithId = Object.assign({ id: result.id }, result);
-        EventDataEmitter.changes('create::' + odm.collectionName,
+        EventDataEmitter.changes('update::' + odm.collectionName,
             new DataChangeEvent(odm.collectionName, null, insertedRecordWithId));
 
         return Array.isArray(result) && result.length === 1 ? result[0] : result;
