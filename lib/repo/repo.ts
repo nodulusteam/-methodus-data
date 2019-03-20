@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { logger } from '../../lib/logger';
 import { DataChangeEvent } from '../changes';
 import { DataEmitter, EventDataEmitter } from '../emitter';
+import { ChangesEvent } from '.';
 
 export abstract class Repo<T> /*implements IRepo*/ {
     private dataArray: any;
@@ -93,17 +94,21 @@ export abstract class Repo<T> /*implements IRepo*/ {
         data = this.cleanOdm(data);
 
 
-        // const recordBefore = await connection.collection(odm.collectionName)
-        // .findOneAndUpdate(filterTransformed,
-        //     replace ? dataToUpdateTransformed : { $set: dataToUpdateTransformed },
-        //     {
-        //         returnOriginal: true,
-        //         upsert: _upsert
-        //     });
+        let result = await dbConnection.collection(odm.collectionName)
+            .findOneAndUpdate({ _id: data._id }, data,
+                {
+                    returnOriginal: true,
+                    upsert: true
+                });
 
 
 
-        let result = await dbConnection.collection(odm.collectionName).save(data, {  returnOriginal: true,upsert: true });
+        // let result = await dbConnection.collection(odm.collectionName).save(data, {  returnOriginal: true,upsert: true });
+
+        const changesData: any = ChangesEvent.findChanges(result, data);
+        const eventData = new DataChangeEvent(odm.collectionName, changesData, data)
+        EventDataEmitter.changes(`update::${odm.collectionName}`, eventData);
+
 
         if (Array.isArray(data)) {
             const dataArray = [data].
@@ -115,11 +120,6 @@ export abstract class Repo<T> /*implements IRepo*/ {
         } else {
             result = this.transformOut(odm, data);
         }
-
-        const insertedRecordWithId = Object.assign({ id: result.id }, result);
-        EventDataEmitter.changes('update::' + odm.collectionName,
-            new DataChangeEvent(odm.collectionName, null, insertedRecordWithId));
-
         return Array.isArray(result) && result.length === 1 ? result[0] : result;
     }
 
@@ -142,11 +142,13 @@ export abstract class Repo<T> /*implements IRepo*/ {
         result = this.transformOut(odm, result.ops);
 
         const inserted = Array.isArray(result) && result.length === 1 ? result[0] : result;
-        
+
+
+
         EventDataEmitter.emit('create::' + odm.collectionName,
             new DataChangeEvent(odm.collectionName, null, inserted));
 
-    
+
         return inserted;
     }
 
@@ -233,13 +235,21 @@ export abstract class Repo<T> /*implements IRepo*/ {
                     upsert,
                 });
 
+      
+        
+
         // proccess data after update/replace: transform out, merge and emit if needed
         if (recordBefore && recordBefore.ok && recordBefore.value) {
             const recordBeforeTransformed = this.transformOut(odm, recordBefore.value);
             const finaltransform = replace ? dataToUpdate : this.smartMerge(recordBeforeTransformed, dataToUpdate);
+            const changesData: any = ChangesEvent.findChanges(recordBefore.value, finaltransform);
+            
+            const eventData = new DataChangeEvent(odm.collectionName, changesData, finaltransform);
+            EventDataEmitter.changes(`update::${odm.collectionName}`, eventData);
             return finaltransform;
         }
     }
+    
 
     static async updateMany<T>(filter: any, updateData: T, upsert: boolean = false) {
         const odm: any = getOdm<T>(updateData) || this.odm;
