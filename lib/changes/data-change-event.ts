@@ -1,5 +1,5 @@
 
-import { logger  } from '../logger';
+import { logger } from '../logger';
 import { IChangesUpdater } from '../interfaces';
 import { DataChange } from './data-changes';
 import { ChangeDelta } from './change-delta';
@@ -8,7 +8,7 @@ import { Odm } from '../odm';
 import { Repo } from '../repo';
 
 export class DataChangeEvent<T = any> {
-    constructor(public collectionName: string, public changesData?: DataChange, public data?: T) {
+    constructor(public collectionName: string, public changesData?: DataChange, public data?: T, public context?: any) {
 
     }
 
