@@ -6,6 +6,10 @@ import { Odm } from '../odm';
 import { TransformDirection } from '../enums/';
 import { logger } from '../logger';
 
+const AND = '$and';
+const OR = '$or';
+const FILTER_BY = 'filter_by';
+
 export interface ITimeObject {
     startTime: Date;
     endTime: Date;
@@ -107,42 +111,42 @@ export class FilterServerUtility {
         },
         'hasFields': (filter: any) => {
             let obj = {};
-            obj[filter['filter_by']] = {
+            obj[filter[FILTER_BY]] = {
                 '$exists': true
             };
             return obj;
         },
         'hasFields_not': (filter: any) => {
             let obj = {};
-            obj[filter['filter_by']] = {
+            obj[filter[FILTER_BY]] = {
                 '$exists': false
             };
             return obj;
         },
         'gt': (filter: any) => {
             let obj = {};
-            obj[filter['filter_by']] = {
+            obj[filter[FILTER_BY]] = {
                 '$gt': filter.value
             };
             return obj;
         },
         'gte': (filter: any) => {
             let obj = {};
-            obj[filter['filter_by']] = {
+            obj[filter[FILTER_BY]] = {
                 '$gte': filter.value
             };
             return obj;
         },
         'lt': (filter: any) => {
             let obj = {};
-            obj[filter['filter_by']] = {
+            obj[filter[FILTER_BY]] = {
                 '$lt': filter.value
             };
             return obj;
         },
         'lte': (filter: any) => {
             let obj = {};
-            obj[filter['filter_by']] = {
+            obj[filter[FILTER_BY]] = {
                 '$lte': filter.value
             };
             return obj;
@@ -150,14 +154,14 @@ export class FilterServerUtility {
 
         'match': (filter) => {
             return {
-                [filter['filter_by']]: {
+                [filter[FILTER_BY]]: {
                     '$in': [new RegExp(escapeRegExp(filter.value), 'i')]
                 }
             };
         },
         'not_match': (filter) => {
             return {
-                [filter['filter_by']]: {
+                [filter[FILTER_BY]]: {
                     '$nin': [new RegExp(escapeRegExp(filter.value), 'i')]
                 }
             };
@@ -165,14 +169,14 @@ export class FilterServerUtility {
 
         'include': (filter) => {
             return {
-                [filter['filter_by']]: {
+                [filter[FILTER_BY]]: {
                     '$in': [new RegExp(escapeRegExp(filter.value), 'i')]
                 }
             };
         },
         'not_include': (filter) => {
             return {
-                [filter['filter_by']]: {
+                [filter[FILTER_BY]]: {
                     '$nin': [new RegExp(escapeRegExp(filter.value), 'i')]
                 }
             };
@@ -181,21 +185,21 @@ export class FilterServerUtility {
 
         'ne': (filter) => {
             let obj = {};
-            obj[filter['filter_by']] = {
+            obj[filter[FILTER_BY]] = {
                 '$ne': filter.value
             };
             return obj;
         },
         'eq': (filter) => {
             let obj = {};
-            obj[filter['filter_by']] = {
+            obj[filter[FILTER_BY]] = {
                 '$eq': filter.value
             };
             return obj;
         },
         'default': (filter) => {
             let obj = {};
-            obj[filter['filter_by']] = {
+            obj[filter[FILTER_BY]] = {
                 '$eq': filter.value
             };
             return obj;
@@ -291,10 +295,12 @@ export class FilterServerUtility {
 
 
     private makeFilterFunction(filters: any, literal: any, sortObject?: any): any {
-        let predicates = [],
-            predicate,
-            filterFunction,
-            i;
+        
+
+        let
+            predicate:any,
+            filterFunction:any,
+            i: number;
 
         for (i = 0; i < filters.length; i++) {
             if (filters[i].filter_by) {
@@ -323,30 +329,25 @@ export class FilterServerUtility {
             }
             filters[i].predicate = predicate;
 
-            if (predicate) {
-                predicates.push(predicate);
-            }
+           
             predicate = null;
 
         }
 
         filterFunction = filters && filters[0] ? filters[0] : null;
         let obj = {};
-        let activeProperty;
+        let activeProperty: string;
         if (filterFunction) {
             switch (filterFunction.logic) {
                 case 'or':
-                    obj['$or'] = [];
-                    activeProperty = '$or';
+                    obj[OR] = [];
+                    activeProperty = OR;
                     break;
                 case 'and':
-                    obj['$and'] = [];
-                    activeProperty = '$and';
-                    break;
                 default:
-                    obj['$and'] = [];
-                    activeProperty = '$and';
-
+                    obj[AND] = [];
+                    activeProperty = AND;
+                    break;
             }
         }
 
@@ -375,8 +376,8 @@ export class FilterServerUtility {
     }
 
     private makePredicate(filter: any): any {
-        let predicate;
-        let filterName = filter.filter + ((filter.logic) ? '_' + filter.logic : '');
+      
+        //let filterName = filter.filter + ((filter.logic) ? '_' + filter.logic : '');
         let filterTreeNode = this.filterTree[filter.filter] || this.filterTree['default'];
         if (filter.logic)
             filterTreeNode.logic = filter.logic;

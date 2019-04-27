@@ -93,9 +93,10 @@ export abstract class Repo<T> /*implements IRepo*/ {
         data = this.transformIn(odm, data);
         data = this.cleanOdm(data);
 
-
+        const cleanObject = Object.assign({}, data);
+        delete cleanObject._id;
         let result = await dbConnection.collection(odm.collectionName)
-            .findOneAndUpdate({ _id: data._id }, data,
+            .findOneAndUpdate({ _id: data._id }, cleanObject,
                 {
                     returnOriginal: true,
                     upsert: true
@@ -235,21 +236,21 @@ export abstract class Repo<T> /*implements IRepo*/ {
                     upsert,
                 });
 
-      
-        
+
+
 
         // proccess data after update/replace: transform out, merge and emit if needed
         if (recordBefore && recordBefore.ok && recordBefore.value) {
             const recordBeforeTransformed = this.transformOut(odm, recordBefore.value);
             const finaltransform = replace ? dataToUpdate : this.smartMerge(recordBeforeTransformed, dataToUpdate);
             const changesData: any = ChangesEvent.findChanges(recordBefore.value, finaltransform);
-            
+
             const eventData = new DataChangeEvent(odm.collectionName, changesData, finaltransform);
             EventDataEmitter.changes(`update::${odm.collectionName}`, eventData);
             return finaltransform;
         }
     }
-    
+
 
     static async updateMany<T>(filter: any, updateData: T, upsert: boolean = false) {
         const odm: any = getOdm<T>(updateData) || this.odm;

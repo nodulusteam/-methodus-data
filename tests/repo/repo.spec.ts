@@ -15,7 +15,7 @@ describe('repo tests - by inheritance', () => {
 
     it('should read record successfully by id from alerts collection', async () => {
         const conn: any = await getConnection();
-        let x = await conn.collection('Alert').insertOne({
+         await conn.collection('Alert').insertOne({
             _id: alertMock._id,
             alert_title: 'my_title'
         });
@@ -210,7 +210,7 @@ describe('repo tests - by inheritance', () => {
                 }
             }
         ];
-        obj = _.map(
+         _.map(
             _.uniq(
                 _.map(obj, function (obj) {
                     return JSON.stringify(obj);
@@ -219,7 +219,7 @@ describe('repo tests - by inheritance', () => {
                 return JSON.parse(obj);
             }
         );
-        obj = obj;
+       
     })
 });
 

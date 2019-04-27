@@ -49,7 +49,7 @@ describe('odm', () => {
 
     it('should create metadata for model using decorators', () => {
         const metadata: ODM<Alert> = Reflect.getOwnMetadata('odm', Alert);
-        expect(metadata).to.be.ok;
+        expect(metadata.collectionName).to.be.equal('Alert');
     })
     it('should add collection name to model metadata', () => {
         const metadata: ODM<Alert> = Reflect.getOwnMetadata('odm', Alert);
@@ -57,7 +57,7 @@ describe('odm', () => {
     });
     it('should add id field for model metadata', () => {
         const metadata: ODM<Alert> = Reflect.getOwnMetadata('odm', Alert);
-        expect(metadata.fields['_id']).to.be.ok;
+        expect(typeof metadata.fields['_id']).to.be.equal('object');
     });
     it('should add id field details for model metadata', () => {
         const metadata: ODM<Alert> = Reflect.getOwnMetadata('odm', Alert);
@@ -68,16 +68,15 @@ describe('odm', () => {
     describe('transform', () => {
 
         it('should transform in, replace id to _id', () => {
-            // given.
             let _id = new ObjectID().toString();
             alert.id = _id
             alert._id = 'danny';
 
             const odm: ODM = Reflect.getMetadata('odm', Alert);
-            // when
+            
             delete alert['modelType'];
             const transformedAlert = Odm.transform<Alert>(odm, alert, TransformDirection.IN);
-            // then
+            
 
             expect(transformedAlert._id.toString()).to.be.equal(_id);
             expect(transformedAlert.id).to.be.equal('danny');
@@ -88,23 +87,13 @@ describe('odm', () => {
     describe('trying to get odm', () => {
 
         it('should get odm for userrole', () => {
-            // given.
             let odm: ODM = Reflect.getMetadata('odm', UserRole);
-            
-            // when
-
-            expect(odm.fields).to.not.be.undefined;
+            expect(Object.keys(odm.fields).length).to.be.equal(7);
         });
 
-        it('should get odm for weight', () => {
-            // given.
-            let odm: ODM = Reflect.getMetadata('odm', Alert);            
-            // when
-
-            
-
-            // then
-            expect(odm.fields.severity.fieldDetails.value).to.not.be.undefined;
+        it('should get odm for weight', () => {          
+            let odm: ODM = Reflect.getMetadata('odm', Alert);        
+            expect(Object.keys(odm.fields.severity.fieldDetails.value).length).to.be.equal(5);
         });
     });
 });

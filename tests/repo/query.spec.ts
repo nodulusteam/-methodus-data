@@ -2,7 +2,7 @@
 const path = require('path');
 import { Repo, Query, ReturnType, QueryFragment } from '../../index';
 import { Alert, User, Company, UserRole } from '../models/index';
-import { Init, getConnection } from '../setup.spec';
+import { getConnection } from '../setup.spec';
 import * as _ from 'lodash';
 
 var chai = require('chai');
@@ -193,15 +193,13 @@ describe('create a simple query to access mongo collection', () => {
         expect(result).to.be.a('object');
 
         done();
-        try { } catch (err) {
-            done(err);
-        }
+       
 
     });
 
     it('filter by id to be an array', async () => {
         const connection: any = await getConnection();
-        let x = await connection.collection('Alert').insertOne({
+        await connection.collection('Alert').insertOne({
             _id: new ObjectID('59800620deb9ae257cb3c830'),
             _company_id: 'HAS',
             created_at: new Date(),
@@ -330,7 +328,7 @@ describe('create a simple query to access mongo collection', () => {
         const connection: any = await getConnection();
         await connection.collection('Alert').insertMany(alerts);
 
-        let query = await new Query(Alert).filter({ 'severity': 'critical' }).exists('case_id').paging(1, 5);
+        let query = new Query(Alert).filter({ 'severity': 'critical' }).exists('case_id').paging(1, 5);
         let result = await Repo.query(query);
         expect(result.results.length).to.equal(2);
     });
@@ -386,7 +384,7 @@ describe('create a simple query to access mongo collection', () => {
         const connection: any = await getConnection();
         await connection.collection('Alert').insertMany(alerts);
 
-        const query = await new Query(Alert)
+        const query = new Query(Alert)
             .between('_id', '100020011', '100030011')
             .and({
                 'severity': 'critical'

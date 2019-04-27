@@ -89,7 +89,8 @@ function init() {
         }
     });
 }
-export const Init = init();
+
+init();
 
 export async function truncateCollections() {
     console.log('Removing all collections from db');

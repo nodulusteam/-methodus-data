@@ -50,11 +50,11 @@ describe('test the odm', function () {
         process.env.NODE_CONFIG_ENV = 'local';
         process.env.NODE_LOG_DIR = './logs';
 
-        let alert = new Alert();
+      
 
-        let query = new Query(Alert).filter({ '_id': '596e16f5bfdc9dbe27c41398' });
+        const query = new Query(Alert).filter({ '_id': '596e16f5bfdc9dbe27c41398' });
 
-        let matchObject = JSON.stringify([{ '$match': { '$and': [{ '_id': '596e16f5bfdc9dbe27c41398' }] } }]);
+        const matchObject = JSON.stringify([{ '$match': { '$and': [{ '_id': '596e16f5bfdc9dbe27c41398' }] } }]);
         expect(JSON.stringify(query.toQuery())).to.equal(matchObject);
     });
 });
