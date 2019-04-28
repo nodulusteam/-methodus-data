@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/mongodb": "^3.1.4",
+   
     "debug": "^2.6.8",
     "escape-string-regexp": "^1.0.5",
     "flat": "^4.0.0",
@@ -24,6 +24,7 @@
     "reflect-metadata": "^0.1.10"
   },
   "devDependencies": {
+    "@types/mongodb": "^3.1.4",
     "nyc": "^13.1.0",
     "@types/chai": "^4.0.0",
     "@types/lodash": "^4.14.116",
