@@ -94,9 +94,10 @@ export abstract class Repo<T> /*implements IRepo*/ {
         data = this.cleanOdm(data);
 
         const cleanObject = Object.assign({}, data);
-        delete cleanObject._id;
+        console.log(DBHandler.keyMode);
+        delete cleanObject[DBHandler.keyMode];
         let result = await dbConnection.collection(odm.collectionName)
-            .findOneAndUpdate({ _id: data._id }, cleanObject,
+            .findOneAndUpdate({ [DBHandler.keyMode]: data[DBHandler.keyMode] }, { $set: cleanObject },
                 {
                     returnOriginal: true,
                     upsert: true
@@ -114,7 +115,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
         if (Array.isArray(data)) {
             const dataArray = [data].
                 reduce((acc, v) => acc.concat(v), new Array()).
-                map((d, i) => Object.assign({ _id: result.result.upserted[i] }, d));
+                map((d, i) => Object.assign({ [DBHandler.keyMode]: result.result.upserted[i] }, d));
             if (dataArray.length > 0) {
                 result = this.transformOut(odm, dataArray);
             }

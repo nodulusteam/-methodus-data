@@ -4,6 +4,7 @@ import { logger } from './logger';
 
 export class DBHandler {
     static connections: Map<string, mongo.Db> = new Map<string, mongo.Db>();
+    static keyMode: string = '_id';
     private static connectionsPromises: Map<string, Promise<mongo.Db>> = new Map<string, Promise<mongo.Db>>();
     private static connectionPools: any = {};
     static config: any;
