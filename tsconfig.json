@@ -4,7 +4,8 @@
             "./node_modules/@types"
         ],
         "declaration": true,
-        "target": "es2015",
+        "outDir": "build",
+        "target": "es2017",
         "module": "commonjs",
         "moduleResolution": "node",
         "sourceMap": true,
@@ -16,7 +17,6 @@
         "suppressImplicitAnyIndexErrors": true,
         "types": [
             "node",
-        
             "mongodb",
             "mocha"
         ]

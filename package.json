@@ -2,11 +2,11 @@
   "name": "@methodus/data",
   "version": "2.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "build/lib/index.js",
   "scripts": {
     "sonar": "sonar-scanner.bat -Dsonar.projectKey=nodulusteam_-methodus-data -Dsonar.organization=nodulusteam-github -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=27e8dc91833f11f8f1ba37a2b98b85bbbe5a6a47",
     "build": "tsc",
-    "test": "npm run build && nyc --reporter=lcov --reporter=html mocha --timeout 10000 tests/**/*.spec.js --recursive"
+    "test": "trash build && npm run build && nyc --reporter=lcov --reporter=html mocha --timeout 10000 build/tests/**/*.spec.js --recursive"
   },
   "author": "",
   "license": "ISC",
@@ -35,6 +35,8 @@
     "mocha": "^2.5.3",
     "proxyquire-2": "1.0.7",
     "sinon": "^4.4.9",
-    "typescript": "^3.4.0"
+    "typescript": "^3.4.0",
+    "npm-run-all": "^4.1.5",
+    "trash-cli": "^1.4.0"
   }
 }
