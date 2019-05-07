@@ -1,6 +1,6 @@
 {
   "name": "@methodus/data",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "",
   "main": "build/lib/index.js",
   "types": "build/lib/index.d.ts",
