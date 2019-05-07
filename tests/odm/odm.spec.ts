@@ -4,7 +4,7 @@ import { ODM } from '../../lib/odm-models';
 import { Odm } from '../../lib/odm';
 import { expect } from 'chai';
 import { ObjectID } from 'mongodb';
-import { TransformDirection, Transform, Field, ObjectId, Model, Repo } from '../../index';
+import { TransformDirection, Transform, Field, ObjectId, Model, Repo } from '../../lib';
 
 
 

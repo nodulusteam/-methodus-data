@@ -2,7 +2,7 @@ import { getOdm } from '../odm';
 import { ODM } from '../odm-models';
 import { Operator } from '../enums/';
 import { Direction } from '../enums/direction';
-import { QueryFragmentElement } from '../../index';
+import { QueryFragmentElement } from '../../lib';
 import * as _ from 'lodash';
 
 export class QueryHelper {

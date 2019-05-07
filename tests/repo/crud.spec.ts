@@ -5,7 +5,7 @@ import { Alert as AlertModel } from '../models/alert';
 import { Case as CaseModel } from '../models/case';
 import { Repo } from '../../lib/repo';
 
-import { Query, DataChange } from '../../index';
+import { Query, DataChange } from '../../lib';
 const sinon = require('sinon');
 
 describe('repo', () => {

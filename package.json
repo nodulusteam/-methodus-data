@@ -5,8 +5,8 @@
   "main": "build/lib/index.js",
   "scripts": {
     "sonar": "sonar-scanner.bat -Dsonar.projectKey=nodulusteam_-methodus-data -Dsonar.organization=nodulusteam-github -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=27e8dc91833f11f8f1ba37a2b98b85bbbe5a6a47",
-    "build": "tsc",
-    "test": "trash build && npm run build && nyc --reporter=lcov --reporter=html mocha --timeout 10000 build/tests/**/*.spec.js --recursive"
+    "build": "trash build && tsc",
+    "test": "npm run build && nyc --reporter=lcov --reporter=html mocha --timeout 10000 build/tests/**/*.spec.js --recursive"
   },
   "author": "",
   "license": "ISC",

@@ -1,4 +1,4 @@
-import { Connection, Repo, Model, Field, Virtual, Lookup, ObjectId, IsoDate, ReturnType, Transform } from '../../index';
+import { Connection, Repo, Model, Field, Virtual, Lookup, ObjectId, IsoDate, ReturnType, Transform } from '../../lib';
 
 @Model('Case', Transform.Automatic)
 @Connection('default')

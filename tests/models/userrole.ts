@@ -1,4 +1,4 @@
-import { Model, Repo, Field, Virtual, Lookup, ObjectId, IsoDate, ReturnType, Transform } from '../../index';
+import { Model, Repo, Field, Virtual, Lookup, ObjectId, IsoDate, ReturnType, Transform } from '../../lib';
 
 
 

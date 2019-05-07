@@ -1,4 +1,4 @@
-import { Model, Field, Virtual, Lookup, ObjectId, IsoDate, ReturnType, Transform, Repo } from '../../index';
+import { Model, Field, Virtual, Lookup, ObjectId, IsoDate, ReturnType, Transform, Repo } from '../../lib';
 
 
 @Model('Company', Transform.Automatic)

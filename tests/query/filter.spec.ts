@@ -1,6 +1,6 @@
 
 import {  DashboardSummaryModel } from '../models';
-import {  Query } from '../../index';
+import {  Query } from '../../lib';
 
 const expect = require('chai').expect;
 

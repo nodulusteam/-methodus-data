@@ -1,6 +1,6 @@
 // tests/config.js
 const path = require('path');
-import { Repo, Query, ReturnType, QueryFragment } from '../../index';
+import { Repo, Query, ReturnType, QueryFragment } from '../../lib/';
 import { Alert, User, Company, UserRole } from '../models/index';
 import { getConnection } from '../setup.spec';
 import * as _ from 'lodash';
