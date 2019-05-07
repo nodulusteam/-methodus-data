@@ -9,7 +9,7 @@ describe('pluck', () => {
     it('multiple fields', async () => {
         try {
             const connection: any = await getConnection();
-            await connection.collection('Company').insert({ "name": "Maxim", "id": "Maxim", "toBeIgnored": 1, "toBeIgnored2": 2 });
+            await connection.collection('Company').insertOne({ "name": "Maxim", "id": "Maxim", "toBeIgnored": 1, "toBeIgnored2": 2 });
             const fieldsToPluck = ['id', 'name']
             const query = new Query(Company);
             const result = await query.pluck(...fieldsToPluck).run();
@@ -28,7 +28,7 @@ describe('check the following methods: between, and, or, paging, filter', () => 
 
     it('get all alerts between id 100020011 to id 100020020 with severity critical or medium with paging of 5 records', async () => {
         const connection: any = await getConnection();
-        await connection.collection('Alert').insert([
+        await connection.collection('Alert').insertMany([
             { "id": "100020011", "severity": "critical" },
             { "id": "100020012", "severity": "low" },
             { "id": "100020013", "severity": "low" },
@@ -61,7 +61,7 @@ describe('check the following methods: between, and, or, paging, filter', () => 
 
     it('filter all alerts with severity high or critical or those are missing severity field, also have company_id POC and created_by_name \'LidoR11 Achiyosef\' or \'Shoshi X Brojak\' ', async () => {
         const connection: any = await getConnection();
-        await connection.collection('Alert').insert([
+        await connection.collection('Alert').insertMany([
             { "id": "100020014", "severity": "low" },
             { "id": "100020015", "severity": "critical", company_name: 'POC', created_by_name: 'LidoR11 Achiyosef' },
             { "id": "100020016", "severity": "low" },
@@ -199,7 +199,7 @@ describe('check the following methods: between, and, or, paging, filter', () => 
                 "status_name": "closed resolved",
                 "status_id_old": "ee42280e-2f01-470d-a135-fd73495b3fd2"
             }];
-            await connection.collection('Case').insert(cases);
+            await connection.collection('Case').insertMany(cases);
             let query = new Query(Case)
                 .filter({ '_company_id': 'POC' })
                 .and({})

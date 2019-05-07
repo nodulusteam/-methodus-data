@@ -140,16 +140,17 @@ export abstract class Repo<T> /*implements IRepo*/ {
         data = this.transformIn(odm, data);
         data = this.cleanOdm(data);
 
-        let result = await dbConnection.collection(odm.collectionName).insert(data);
+        let result;
+        if (Array.isArray(data)) {
+            result = await dbConnection.collection(odm.collectionName).insertMany(data);
+        } else {
+            result = await dbConnection.collection(odm.collectionName).insertOne(data);
+        }
         result = this.transformOut(odm, result.ops);
-
         const inserted = Array.isArray(result) && result.length === 1 ? result[0] : result;
-
-
 
         EventDataEmitter.emit('create::' + odm.collectionName,
             new DataChangeEvent(odm.collectionName, null, inserted));
-
 
         return inserted;
     }
