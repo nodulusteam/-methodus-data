@@ -3,6 +3,7 @@
   "version": "2.0.5",
   "description": "",
   "main": "build/lib/index.js",
+  "types": "build/lib/index.d.ts",
   "scripts": {
     "sonar": "sonar-scanner.bat -Dsonar.projectKey=nodulusteam_-methodus-data -Dsonar.organization=nodulusteam-github -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=27e8dc91833f11f8f1ba37a2b98b85bbbe5a6a47",
     "build": "trash build && tsc",
