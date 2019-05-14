@@ -16,9 +16,7 @@
             // Automatically stop program after launch.
             "stopOnEntry": false,
             // Command line arguments passed to the program.
-            "args": [
-           
-            ],
+            "args": [],
             "sourceMaps": true,
             // Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
             "cwd": "${workspaceRoot}",
@@ -33,9 +31,6 @@
                 "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
-
-
-
         {
             "request": "launch",
             "console": "internalConsole",
@@ -308,7 +303,7 @@
                 "--debug",
                 "--inspect",
                 "--no-timeouts",
-                "tests/repo/repo.spec.js"
+                "build/tests/repo/repo.spec.js"
             ],
             "sourceMaps": true,
             // Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
