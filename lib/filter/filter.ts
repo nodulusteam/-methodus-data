@@ -5,7 +5,6 @@ import { ObjectID } from 'mongodb';
 import { Odm } from '../odm';
 import { TransformDirection } from '../enums/';
 import { logger } from '../logger';
-
 const AND = '$and';
 const OR = '$or';
 const FILTER_BY = 'filter_by';
@@ -17,8 +16,6 @@ export interface ITimeObject {
 export class FilterServerUtility {
     private emptyObjectString: any = JSON.stringify({});
     private model: any;
-
-
     public handleODM(filter: any) {
         //let cloneFilter = JSON.parse(JSON.stringify(filter));
         let cloneFilter = filter;
@@ -48,14 +45,12 @@ export class FilterServerUtility {
         return cloneFilter;
     }
 
-
     findInOdm(odm: any, find: any) {
         for (let field in odm) {
             if (odm[field].displayName && odm[field].displayName === find)
                 return odm[field];
         }
     }
-
 
     public static singleOrArray(filter: any, func: Function, propertyKey: string) {
         let keys = Object.keys(filter[propertyKey]);
@@ -100,118 +95,112 @@ export class FilterServerUtility {
     }
 
     private filterTree: any = {
-        'during': (filter: any) => {
-            let timeObject: ITimeObject = this.buildTimeObject(filter);
+        'during': (filterDuring: any) => {
+            const timeObject: ITimeObject = this.buildTimeObject(filterDuring);
             return {
-                [filter.filter_by]: {
+                [filterDuring.filter_by]: {
                     $gte: timeObject.startTime,
                     $lte: timeObject.endTime
                 }
             };
         },
-        'hasFields': (filter: any) => {
-            let obj = {};
-            obj[filter[FILTER_BY]] = {
+        'hasFields': (filterHasFields: any) => {
+            const hasFields = {};
+            hasFields[filterHasFields[FILTER_BY]] = {
                 '$exists': true
             };
-            return obj;
+            return hasFields;
         },
-        'hasFields_not': (filter: any) => {
-            let obj = {};
-            obj[filter[FILTER_BY]] = {
+        'hasFields_not': (filterHasFieldsNot: any) => {
+            const hasFieldsNot = {};
+            hasFieldsNot[filterHasFieldsNot[FILTER_BY]] = {
                 '$exists': false
             };
-            return obj;
+            return hasFieldsNot;
         },
-        'gt': (filter: any) => {
-            let obj = {};
-            obj[filter[FILTER_BY]] = {
-                '$gt': filter.value
+        'gt': (filterGT: any) => {
+            const gt = {};
+            gt[filterGT[FILTER_BY]] = {
+                '$gt': filterGT.value
             };
-            return obj;
+            return gt;
         },
-        'gte': (filter: any) => {
-            let obj = {};
-            obj[filter[FILTER_BY]] = {
-                '$gte': filter.value
+        'gte': (filterGTE: any) => {
+            const gte = {};
+            gte[filterGTE[FILTER_BY]] = {
+                '$gte': filterGTE.value
             };
-            return obj;
+            return gte;
         },
-        'lt': (filter: any) => {
-            let obj = {};
-            obj[filter[FILTER_BY]] = {
-                '$lt': filter.value
+        'lt': (filterLT: any) => {
+            const lt = {};
+            lt[filterLT[FILTER_BY]] = {
+                '$lt': filterLT.value
             };
-            return obj;
+            return lt;
         },
-        'lte': (filter: any) => {
-            let obj = {};
-            obj[filter[FILTER_BY]] = {
-                '$lte': filter.value
+        'lte': (filterLTE: any) => {
+            const lte = {};
+            lte[filterLTE[FILTER_BY]] = {
+                '$lte': filterLTE.value
             };
-            return obj;
+            return lte;
         },
 
-        'match': (filter) => {
+        'match': (filterMatch) => {
             return {
-                [filter[FILTER_BY]]: {
-                    '$in': [new RegExp(escapeRegExp(filter.value), 'i')]
+                [filterMatch[FILTER_BY]]: {
+                    '$in': [new RegExp(escapeRegExp(filterMatch.value), 'i')]
                 }
             };
         },
-        'not_match': (filter) => {
+        'not_match': (filterNotMatch) => {
             return {
-                [filter[FILTER_BY]]: {
-                    '$nin': [new RegExp(escapeRegExp(filter.value), 'i')]
+                [filterNotMatch[FILTER_BY]]: {
+                    '$nin': [new RegExp(escapeRegExp(filterNotMatch.value), 'i')]
                 }
             };
         },
-
-        'include': (filter) => {
+        'include': (filterInclude) => {
             return {
-                [filter[FILTER_BY]]: {
-                    '$in': [new RegExp(escapeRegExp(filter.value), 'i')]
+                [filterInclude[FILTER_BY]]: {
+                    '$in': [new RegExp(escapeRegExp(filterInclude.value), 'i')]
                 }
             };
         },
-        'not_include': (filter) => {
+        'not_include': (filterNotInclude) => {
             return {
-                [filter[FILTER_BY]]: {
-                    '$nin': [new RegExp(escapeRegExp(filter.value), 'i')]
+                [filterNotInclude[FILTER_BY]]: {
+                    '$nin': [new RegExp(escapeRegExp(filterNotInclude.value), 'i')]
                 }
             };
         },
-
-
-        'ne': (filter) => {
-            let obj = {};
-            obj[filter[FILTER_BY]] = {
-                '$ne': filter.value
+        'ne': (filterNE) => {
+            const ne = {};
+            ne[filterNE[FILTER_BY]] = {
+                '$ne': filterNE.value
             };
-            return obj;
+            return ne;
         },
-        'eq': (filter) => {
-            let obj = {};
-            obj[filter[FILTER_BY]] = {
-                '$eq': filter.value
+        'eq': (filterEQ) => {
+            let eq = {};
+            eq[filterEQ[FILTER_BY]] = {
+                '$eq': filterEQ.value
             };
-            return obj;
+            return eq;
         },
-        'default': (filter) => {
-            let obj = {};
-            obj[filter[FILTER_BY]] = {
-                '$eq': filter.value
+        'default': (filterDefault) => {
+            let defaul = {};
+            defaul[filterDefault[FILTER_BY]] = {
+                '$eq': filterDefault.value
             };
-            return obj;
+            return defaul;
         }
     };
 
     constructor(instance: any) {
         this.model = instance;
     }
-
-
-
 
     public build(queryFilters?, query?, literal?): any { //literal is a patch for when we use fields like 'alert.title' and need to treat it as a flat property
 
@@ -229,7 +218,6 @@ export class FilterServerUtility {
                     filter = queryFilters[i];
                 }
                 //
-
                 //Check to make sure filter object is not empty
                 if (Object.keys(filter).length !== 0 && filter !== JSON.stringify({}) && !filter.order_by /*&& (filter.filter || filter.nested)*/) {
                     /*if (filter.filter === 'during') {
@@ -282,24 +270,19 @@ export class FilterServerUtility {
         } else {
             return {};
         }
-
     }
 
     private buildTimeObject(duringer: any): ITimeObject {
-
         return {
             startTime: new Date(duringer.value.start),
             endTime: new Date(duringer.value.end)
         }
     }
 
-
     private makeFilterFunction(filters: any, literal: any, sortObject?: any): any {
-        
-
         let
-            predicate:any,
-            filterFunction:any,
+            predicate: any,
+            filterFunction: any,
             i: number;
 
         for (i = 0; i < filters.length; i++) {
@@ -328,10 +311,7 @@ export class FilterServerUtility {
                 predicate = this.handleODM(filters[i]);
             }
             filters[i].predicate = predicate;
-
-           
             predicate = null;
-
         }
 
         filterFunction = filters && filters[0] ? filters[0] : null;
@@ -367,16 +347,14 @@ export class FilterServerUtility {
         return obj;
     }
 
-
-
     private getDateDuring(value: any) {
-        let start = new Date(value.start);
-        let end = new Date(value.end);
-        return { 'start': start, 'end': end };
+        const start = new Date(value.start);
+        const end = new Date(value.end);
+        return { start, end };
     }
 
     private makePredicate(filter: any): any {
-      
+
         //let filterName = filter.filter + ((filter.logic) ? '_' + filter.logic : '');
         let filterTreeNode = this.filterTree[filter.filter] || this.filterTree['default'];
         if (filter.logic)
@@ -432,12 +410,4 @@ export class FilterServerUtility {
 
         return duringer;
     }
-
-
-
-
-
-
-
-
 }

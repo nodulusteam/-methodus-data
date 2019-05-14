@@ -5,6 +5,7 @@ import { Repo } from '../../lib/repo';
 import { ObjectID } from 'mongodb';
 let _alertId: any = null;
 import * as _ from 'lodash';
+import { ReturnType } from '../../lib';
 describe('repo tests - by inheritance', () => {
     const alertMock: any = {};
     alertMock._id = new ObjectID();
@@ -15,7 +16,7 @@ describe('repo tests - by inheritance', () => {
 
     it('should read record successfully by id from alerts collection', async () => {
         const conn: any = await getConnection();
-         await conn.collection('Alert').insertOne({
+        await conn.collection('Alert').insertOne({
             _id: alertMock._id,
             alert_title: 'my_title'
         });
@@ -26,6 +27,75 @@ describe('repo tests - by inheritance', () => {
 
         //then
         expect(alert.id.toString()).is.equal(alertMock._id.toString());
+    });
+
+    it('repo insert test', async () => {
+        // given
+        const alertModel = new Alert({
+            _id: alertMock._id,
+            alert_title: 'my_title'
+        });
+        // when
+        const alert: any = await alertModel.insert();
+        //then
+        expect(alert._id.toString()).is.equal(alertMock._id.toString());
+    });
+
+    it('repo save test', async () => {
+        // given
+        const data = {
+            _id: alertMock._id,
+            alert_title: 'my_title'
+        };
+        // when
+        const alert: any = await Alert.save(data);
+        //then
+        expect(alert._id.toString()).is.equal(alertMock._id.toString());
+    });
+
+
+    it('repo find test', async () => {
+        const conn: any = await getConnection();
+        await conn.collection('Alert').insertOne({
+            _id: alertMock._id,
+            alert_title: 'my_title'
+        });
+        //given
+        //when        
+        const alertModel = new Alert();
+        const alert: any = await alertModel.find({ _id: alertMock._id }, ReturnType.Single);
+
+        //then
+        expect(alert._id.toString()).is.equal(alertMock._id.toString());
+    });
+
+
+    it('repo find test static', async () => {
+        const conn: any = await getConnection();
+        await conn.collection('Alert').insertOne({
+            _id: alertMock._id,
+            alert_title: 'my_title'
+        });
+        //given
+        //when
+        const alert = await Alert.find({ _id: alertMock._id }, ReturnType.Single);
+
+        //then
+        expect(alert._id.toString()).is.equal(alertMock._id.toString());
+    });
+
+    it('repo updateMany', async () => {
+        const conn: any = await getConnection();
+        await conn.collection('Alert').insertOne({
+            _id: alertMock._id,
+            alert_title: 'my_title'
+        });
+        // given
+        // when
+        const res: any = await Alert.updateMany({ _id: alertMock._id }, { alert_title: 'zokzok_title' });
+
+        // then
+        expect(res.result.ok).is.equal(1);
     });
 
     it('uniqBy lodash', async () => {
@@ -210,7 +280,7 @@ describe('repo tests - by inheritance', () => {
                 }
             }
         ];
-         _.map(
+        _.map(
             _.uniq(
                 _.map(obj, function (obj) {
                     return JSON.stringify(obj);
@@ -219,7 +289,7 @@ describe('repo tests - by inheritance', () => {
                 return JSON.parse(obj);
             }
         );
-       
+
     })
 });
 

@@ -283,9 +283,23 @@ export abstract class Repo<T> /*implements IRepo*/ {
         }
         return result;
     }
-    async find(filter: object, returnType?: ReturnType) {
-        const query = new Query(this).filter(filter);
-        return await query.run(returnType);
+
+    private static async _find(odm: ODM, filter, returnType: ReturnType = ReturnType.Multi) {
+        // const odm = getOdm(this);
+        const connection = await DBHandler.getConnection(odm.connectionName);
+        let result = await connection.collection(odm.collectionName).find(filter).toArray();
+        return returnType === ReturnType.Single ? result[0] : result;
+    }
+
+    async find(filter: any = {}, returnType: ReturnType = ReturnType.Multi) {
+        const result = await Repo._find(getOdm<T>(this), filter, returnType);
+        return result;
+    }
+
+    static async find(filter: any = {}, returnType: ReturnType = ReturnType.Multi) {
+        const odm = this.odm as ODM;
+        const result = await Repo._find(odm, filter, returnType);
+        return result;
     }
 
     static async query(query: Query, returnType?: ReturnType) {
