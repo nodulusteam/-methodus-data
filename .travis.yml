@@ -2,11 +2,13 @@ language: node_js
 node_js:
   - "node"
   - "10"
+deploy:
+  provider: npm
+  email: "roi.benhaim@gmail.com"
+  api_key: "62a6fa2c-b682-4a35-9a32-488aa4f947bf"  
 services: mongodb  
 addons:
   sonarcloud:
     organization: "nodulusteam-github" # the key of the org you chose at step #3  
 before_script:
   - npm test 
-script:
-  - sonar-scanner
