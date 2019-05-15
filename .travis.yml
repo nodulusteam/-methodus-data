@@ -9,6 +9,8 @@ deploy:
   skip_cleanup: true
   email: "$NPM_EMAIL"
   api_key: "$NPM_TOKEN"
+  on:
+    branch: master
 services: mongodb  
 addons:
   sonarcloud:
