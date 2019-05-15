@@ -38,25 +38,7 @@ export async function getConnection(): Promise<any> {
             }
             resolve(client.db(config.db.mongo.db));
         });
-
-        // const client = new mongo.MongoClient(config.db.mongoServer);
-        // try {
-        //     if (!connection) {
-        //         client.connect((err, db) => {
-
-        //             resolve(db('tmlatest'));
-        //         });
-        //     }
-        //     //console.log(`connected to ${config.db.mongoServer}`);
-
-        // }
-        // catch (err) {
-        //     //console.log(`Database failure: ${err}`);
-        //     throw err;
-        // }
-
-    })
-
+    });
 }
 
 function init() {
@@ -104,5 +86,3 @@ export async function truncateCollections() {
     await Promise.all(names.map((collectionName: any) => connection.collection(collectionName).drop()));
     console.log(`Removed all collections from db: ${names}`);
 }
-
-//truncateCollections();

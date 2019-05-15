@@ -6,8 +6,6 @@ cache: yarn
 install: yarn  
 deploy:
   provider: npm
-  email: "roi.benhaim@gmail.com"
-  api_key: "62a6fa2c-b682-4a35-9a32-488aa4f947bf"
   on:
           tags: true  
 services: mongodb  

@@ -94,7 +94,6 @@ export abstract class Repo<T> /*implements IRepo*/ {
         data = this.cleanOdm(data);
 
         const cleanObject = Object.assign({}, data);
-        console.log(DBHandler.keyMode);
         delete cleanObject[DBHandler.keyMode];
         let result = await dbConnection.collection(odm.collectionName)
             .findOneAndUpdate({ [DBHandler.keyMode]: data[DBHandler.keyMode] }, { $set: cleanObject },
