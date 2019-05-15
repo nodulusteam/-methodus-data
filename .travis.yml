@@ -6,8 +6,6 @@ cache: yarn
 install: yarn  
 deploy:
   provider: npm
-  on:
-          tags: true  
 services: mongodb  
 addons:
   sonarcloud:
