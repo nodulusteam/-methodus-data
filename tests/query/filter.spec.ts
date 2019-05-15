@@ -1,22 +1,53 @@
 
-import {  DashboardSummaryModel } from '../models';
-import {  Query } from '../../lib';
-
+import { Alert } from '../models';
+import { Query, FilterServerUtility } from '../../lib';
+import { getConnection } from '../setup.spec';
 const expect = require('chai').expect;
-
+import { ObjectID } from 'mongodb';
+import { ReturnType } from '../../lib/enums/return_type';
 describe('pluck', () => {
-    it('dashboardsummarymodel test or and and or', async () => {
-        const startDate = new Date("2018-01-21T09:08:05.000Z");
-        const endDate = new Date("2018-01-28T09:08:05.000Z");
-        new Query(DashboardSummaryModel)
-            .filter({ _company_id: "HAS" })
-            .between('recordDate', startDate, endDate)
-            .or([
-                { provider: { $eq: null } },
-                { provider: { $eq: 2 } },
-                { provider: { $eq: 1 } }
-            ]
-            );
-        expect(1).to.equal(1000000 - 999999);
+
+    it('filterserverutility test', async () => {
+        const conn: any = await getConnection();
+        const _id: any = new ObjectID();
+        const fUtility: FilterServerUtility = new FilterServerUtility(Alert);
+        let predicate = new Query(Alert);
+        await conn.collection('Alert').insertOne({
+            _id,
+            alert_title: 'my_title'
+        });
+        const query = {
+            filters: { alert_title: 'my_title' }
+        };
+        if (query.filters) {
+            const utilityFilters = fUtility.build(query.filters);
+            if (utilityFilters && Object.keys(utilityFilters).length > 0) {
+                predicate = predicate.filter(utilityFilters);
+            }
+        }
+        const result: any = await predicate.run(ReturnType.Single);
+        expect(result['alert.title']).to.equal('my_title');
+    });
+
+    it('filterserverutility array test', async () => {
+        const conn: any = await getConnection();
+        const _id: any = new ObjectID();
+        const fUtility: FilterServerUtility = new FilterServerUtility(Alert);
+        let predicate = new Query(Alert);
+        await conn.collection('Alert').insertOne({
+            _id,
+            alert_title: 'my_title'
+        });
+        const query = {
+            filters: [{ filter_by: 'alert_title', order_by: 'alert_title' }]
+        };
+        if (query.filters) {
+            const utilityFilters = fUtility.build(query.filters, { alert_title: 'my_title' });
+            if (utilityFilters && Object.keys(utilityFilters).length > 0) {
+                predicate = predicate.filter(utilityFilters);
+            }
+        }
+        const result: any = await predicate.run(ReturnType.Single);
+        expect(result['alert.title']).to.equal('my_title');
     });
 });

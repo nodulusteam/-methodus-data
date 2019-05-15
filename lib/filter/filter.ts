@@ -14,8 +14,12 @@ export interface ITimeObject {
     endTime: Date;
 }
 export class FilterServerUtility {
-    private emptyObjectString: any = JSON.stringify({});
     private model: any;
+
+    constructor(instance: any) {
+        this.model = instance;
+    }
+
     public handleODM(filter: any) {
         //let cloneFilter = JSON.parse(JSON.stringify(filter));
         let cloneFilter = filter;
@@ -198,10 +202,6 @@ export class FilterServerUtility {
         }
     };
 
-    constructor(instance: any) {
-        this.model = instance;
-    }
-
     public build(queryFilters?, query?, literal?): any { //literal is a patch for when we use fields like 'alert.title' and need to treat it as a flat property
 
         let filters = [],
@@ -347,11 +347,11 @@ export class FilterServerUtility {
         return obj;
     }
 
-    private getDateDuring(value: any) {
-        const start = new Date(value.start);
-        const end = new Date(value.end);
-        return { start, end };
-    }
+    // private getDateDuring(value: any) {
+    //     const start = new Date(value.start);
+    //     const end = new Date(value.end);
+    //     return { start, end };
+    // }
 
     private makePredicate(filter: any): any {
 
@@ -362,52 +362,52 @@ export class FilterServerUtility {
         return filterTreeNode;
     }
 
-    private handleTimeRange(query: any) {
-        let duringer = null;
-        //we build the filters in order to find a date filter, if it exists we will use a date index for the base predicate
+    // private handleTimeRange(query: any) {
+    //     let duringer = null;
+    //     //we build the filters in order to find a date filter, if it exists we will use a date index for the base predicate
 
-        let filtersList = [],
-            filter;
-        let queryFilters = query.filters;
-        if (typeof queryFilters === 'string') {
-            queryFilters = JSON.parse(queryFilters);
-        }
+    //     let filtersList = [],
+    //         filter;
+    //     let queryFilters = query.filters;
+    //     if (typeof queryFilters === 'string') {
+    //         queryFilters = JSON.parse(queryFilters);
+    //     }
 
-        if (Array.isArray(queryFilters)) {
-            for (let i = 0; i < queryFilters.length; i++) {
-                //filter = JSON.parse(query.filters[i]);
-                //Check to make sure filter object is not empty
-                if (typeof queryFilters[i] === 'string') {
-                    filter = JSON.parse(queryFilters[i]);
-                } else {
-                    filter = queryFilters[i];
-                }
-                if (Object.keys(filter).length !== 0 && JSON.stringify(filter) !== JSON.stringify({})) {
-                    filtersList.push(filter);
-                }
-            }
-        } else {
-            //TODO check to make sure JSON.parse will work
-            filter = queryFilters;
+    //     if (Array.isArray(queryFilters)) {
+    //         for (let i = 0; i < queryFilters.length; i++) {
+    //             //filter = JSON.parse(query.filters[i]);
+    //             //Check to make sure filter object is not empty
+    //             if (typeof queryFilters[i] === 'string') {
+    //                 filter = JSON.parse(queryFilters[i]);
+    //             } else {
+    //                 filter = queryFilters[i];
+    //             }
+    //             if (Object.keys(filter).length !== 0 && JSON.stringify(filter) !== JSON.stringify({})) {
+    //                 filtersList.push(filter);
+    //             }
+    //         }
+    //     } else {
+    //         //TODO check to make sure JSON.parse will work
+    //         filter = queryFilters;
 
-            if (Object.keys(filter).length !== 0 && filter !== JSON.stringify({})) {
-                filtersList.push(filter);
-            }
-        }
-        duringer = _.head(_.filter(filtersList, item => item.filter === 'during'));
+    //         if (Object.keys(filter).length !== 0 && filter !== JSON.stringify({})) {
+    //             filtersList.push(filter);
+    //         }
+    //     }
+    //     duringer = _.head(_.filter(filtersList, item => item.filter === 'during'));
 
-        if (duringer) {
+    //     if (duringer) {
 
-            let sortFromFilter = _.head(_.filter(filtersList, item => item.sort === 'desc'));
+    //         let sortFromFilter = _.head(_.filter(filtersList, item => item.sort === 'desc'));
 
-            if (sortFromFilter) {
-                duringer.sort = sortFromFilter.sort;
-            } else {
-                duringer.sort = query.sort === 'desc' ? 'desc' : 'asc';
-            }
+    //         if (sortFromFilter) {
+    //             duringer.sort = sortFromFilter.sort;
+    //         } else {
+    //             duringer.sort = query.sort === 'desc' ? 'desc' : 'asc';
+    //         }
 
-        }
+    //     }
 
-        return duringer;
-    }
+    //     return duringer;
+    // }
 }

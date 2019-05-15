@@ -52,24 +52,4 @@ describe('test the odm', function () {
         let matchObject = JSON.stringify([{ "$match": { "$and": [{ "_id": "596e16f5bfdc9dbe27c41398" }] } }]);
         expect(JSON.stringify(query.toQuery())).to.equal(matchObject);
     });
-
-
-    xit('sortusing alert.title', function () {
-
-        process.env.NODE_CONFIG_DIR = path.join(__dirname, '../', 'env');
-
-
-        process.env.TEST = 'true';
-        process.env.NODE_ENV = "debug";
-        process.env.NODE_CONFIG_ENV = "local";
-        process.env.NODE_LOG_DIR = "./logs";
-
-
-        let query = new Query(Alert).filter({ '_id': '596e16f5bfdc9dbe27c41398' }).order('alert.title', 'desc');
-
-        let matchObject = JSON.stringify([{ "$match": { "$and": [{ "id": "596e16f5bfdc9dbe27c41398" }] } }, { "$sort": { "alert_title": -1 } }]);
-        expect(JSON.stringify(query.toQuery())).to.equal(matchObject);
-    });
-
-
 });
