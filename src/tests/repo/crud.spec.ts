@@ -3,9 +3,9 @@ import { Db, ObjectID } from 'mongodb';
 import { truncateCollections, getConnection } from '../setup.spec';
 import { Alert as AlertModel } from '../models/alert';
 import { Case as CaseModel } from '../models/case';
-import { Repo } from '../../lib/repo';
+import { Repo } from '../../repo';
 
-import { Query, DataChange } from '../../lib';
+import { Query, DataChange } from '../../';
 const sinon = require('sinon');
 
 describe('repo', () => {

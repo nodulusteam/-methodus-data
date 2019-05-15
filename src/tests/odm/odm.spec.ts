@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { Alert } from '../models/alert';
-import { ODM } from '../../lib/odm-models';
-import { Odm } from '../../lib/odm';
+import { ODM } from '../../odm-models';
+import { Odm } from '../../odm';
 import { expect } from 'chai';
 import { ObjectID } from 'mongodb';
-import { TransformDirection, Transform, Field, ObjectId, Model, Repo } from '../../lib';
+import { TransformDirection, Transform, Field, ObjectId, Model, Repo } from '../../';
 
 
 

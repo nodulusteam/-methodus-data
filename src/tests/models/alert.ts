@@ -1,4 +1,4 @@
-import { Connection, Repo, Model, Field, Virtual, Lookup, Weight, ObjectId, IsoDate, ReturnType, Transform } from '../../lib';
+import { Connection, Repo, Model, Field, Virtual, Lookup, Weight, ObjectId, IsoDate, ReturnType, Transform } from '../../';
 
 
 @Model('Alert', Transform.Automatic)

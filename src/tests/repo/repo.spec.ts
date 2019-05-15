@@ -1,11 +1,11 @@
 import { getConnection } from '../setup.spec';
 import { expect } from 'chai';
 import { Alert } from '../models/alert';
-import { Repo } from '../../lib/repo';
+import { Repo } from '../../repo';
 import { ObjectID } from 'mongodb';
 let _alertId: any = null;
 import * as _ from 'lodash';
-import { ReturnType } from '../../lib';
+import { ReturnType } from '../../';
 describe('repo tests - by inheritance', () => {
     const alertMock: any = {};
     alertMock._id = new ObjectID();

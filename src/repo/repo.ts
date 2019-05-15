@@ -4,7 +4,7 @@ import { Odm, getOdm } from '../odm';
 import { ODM } from '../odm-models';
 import { ReturnType, TransformDirection, Transform } from '../enums/';
 import * as _ from 'lodash';
-import { logger } from '../../lib/logger';
+import { logger } from '../logger';
 import { DataChangeEvent } from '../changes';
 import { DataEmitter, EventDataEmitter } from '../emitter';
 import { ChangesEvent } from '.';

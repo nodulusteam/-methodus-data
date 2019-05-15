@@ -9,7 +9,7 @@ const config: any = {
     }
 };
 
-import { DBHandler } from '../lib/connect';
+import { DBHandler } from '../connect';
 DBHandler.config = {
     connections: {
         'default': {

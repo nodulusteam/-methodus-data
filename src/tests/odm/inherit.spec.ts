@@ -5,9 +5,9 @@ process.env.NODE_CONFIG_DIR = path.join(__dirname, '../', 'config');
 
 var chai = require('chai');
 var expect = chai.expect; // we are using the 'expect' style of Chai
-import { Query } from '../../lib/query';
-import { Model, Field, Virtual, Lookup, ObjectId, IsoDate } from '../../lib/decorators';
-import { Repo } from '../../lib/repo'
+import { Query } from '../../query';
+import { Model, Field, Virtual, Lookup, ObjectId, IsoDate } from '../../decorators';
+import { Repo } from '../../repo'
 
 
 

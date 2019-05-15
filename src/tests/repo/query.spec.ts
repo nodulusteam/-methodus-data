@@ -1,5 +1,5 @@
 // tests/config.js
-import { Repo, Query, ReturnType } from '../../lib/';
+import { Repo, Query, ReturnType } from '../../';
 import { Alert, Company } from '../models/index';
 import { getConnection } from '../setup.spec';
 import * as _ from 'lodash';

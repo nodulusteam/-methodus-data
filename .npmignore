@@ -1,6 +1,4 @@
-*.ts
-lib/*.ts
-!*.d.ts
+src
 logs
 tests
 .nyc_output

@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import { ODM, MetadataField } from './odm-models';
-import { TransformDirection } from '../lib/enums';
+import { TransformDirection } from './enums';
 import { ObjectID } from 'mongodb';
 import { logger } from './logger';
-import { FilterServerUtility } from '../lib/filter/';
+import { FilterServerUtility } from './filter/';
 import { ElementType } from './enums';
 
 export function getOdm<T>(data: Array<{}> | {}): ODM<T> {

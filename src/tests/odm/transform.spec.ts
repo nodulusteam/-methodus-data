@@ -2,7 +2,7 @@
 import {
      Transform, Repo,
     Model, Field, ObjectId,  Number
-} from '../../lib';
+} from '../../';
 
 const expect = require('chai').expect;
 

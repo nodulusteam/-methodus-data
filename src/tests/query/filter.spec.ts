@@ -1,10 +1,10 @@
 
 import { Alert } from '../models';
-import { Query, FilterServerUtility } from '../../lib';
+import { Query, FilterServerUtility } from '../../';
 import { getConnection } from '../setup.spec';
 const expect = require('chai').expect;
 import { ObjectID } from 'mongodb';
-import { ReturnType } from '../../lib/enums/return_type';
+import { ReturnType } from '../../enums/return_type';
 describe('pluck', () => {
 
     it('filterserverutility test', async () => {

@@ -5,10 +5,10 @@ process.env.NODE_CONFIG_DIR = path.join(__dirname, '../', 'config');
 
 var chai = require('chai');
 var expect = chai.expect; // we are using the 'expect' style of Chai
-import { Query } from '../../lib/query';
-import { Repo } from '../../lib/repo';
-import { Connection, Model, Field, Virtual, Lookup, ObjectId, IsoDate } from '../../lib/decorators';
-import { Transform } from '../../lib/enums';
+import { Query } from '../../query';
+import { Repo } from '../../repo';
+import { Connection, Model, Field, Virtual, Lookup, ObjectId, IsoDate } from '../../decorators';
+import { Transform } from '../../enums';
 import { ObjectID } from 'mongodb';
 
 process.env.TEST = 'true';

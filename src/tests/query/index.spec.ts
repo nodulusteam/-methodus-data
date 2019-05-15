@@ -2,7 +2,7 @@ import {
     getConnection
 } from '../setup.spec';
 import { Company, Alert, Case } from '../models';
-import { Query, ReturnType } from '../../lib';
+import { Query, ReturnType } from '../../';
 const chai = require('chai');
 const expect = chai.expect;
 const assert = chai.assert;
