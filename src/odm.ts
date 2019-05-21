@@ -25,7 +25,9 @@ export function getOdm<T>(data: Array<{}> | {}): ODM<T> {
             odm = obj.modelType.odm;
         }
     }
-    (odm as any).schemaValidaor = buildScehmaValidator(odm.fields);
+    if(odm && odm.fields){
+        (odm as any).schemaValidaor = buildScehmaValidator(odm.fields);
+    }
     return odm;
 }
 
@@ -38,7 +40,7 @@ function buildScehmaValidator(fields: any) {
         if (key !== '_id') {
             const property: any = fields[key];
             const fieldDetails: any = property.fieldDetails;
-            const type: any = fieldDetails && fieldDetails.type ? fieldDetails.type : property.type;
+            const type: any = fieldDetails && fieldDetails.type && fieldDetails.type !== 'weight' ? fieldDetails.type : property.type;
             $and.push({
                 [property.propertyKey]: { $type: (type as string).toLowerCase() }
             });

@@ -79,7 +79,7 @@
                 "--debug",
                 "--inspect",
                 "--no-timeouts",
-                "tests/odm/transform.spec.js"
+                "build/tests/odm/transform.spec.js"
             ],
             "sourceMaps": true,
             // Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.

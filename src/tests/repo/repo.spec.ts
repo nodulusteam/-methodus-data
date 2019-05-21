@@ -6,6 +6,23 @@ import { ObjectID } from 'mongodb';
 let _alertId: any = null;
 import * as _ from 'lodash';
 import { ReturnType } from '../../';
+
+import { DBHandler } from '../../connect';
+
+DBHandler.config = {
+    connections: {
+        'default': {
+            server: 'mongodb://localhost:27017',
+            db: 'test',
+            poolSize: 10,
+            ssl: false,
+            exchanges: ['event-bus', 'cache-bus'],
+            readPreference: 'primaryPreferred'
+        }
+    }
+
+}
+
 describe('repo tests - by inheritance', () => {
     const alertMock: any = {};
     alertMock._id = new ObjectID();

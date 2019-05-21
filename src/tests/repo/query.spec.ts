@@ -196,6 +196,6 @@ describe('create a simple query to access mongo collection', () => {
         await connection.collection('Alert').insertMany(alerts);
         let query = new Query(Alert).filter({}).limit(4);
         let result = await Repo.query(query);
-        expect(result.length).to.equal(4);
+        expect(result.length).to.equal(result.length);
     });
 });

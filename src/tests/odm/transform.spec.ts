@@ -3,8 +3,25 @@ import {
      Transform, Repo,
     Model, Field, ObjectId,  Number
 } from '../../';
-
+import { DBHandler } from '../../connect';
 const expect = require('chai').expect;
+
+
+
+DBHandler.config = {
+    connections: {
+        'default': {
+            server: 'mongodb://localhost:27017',
+            db: 'test',
+            poolSize: 10,
+            ssl: false,
+            exchanges: ['event-bus', 'cache-bus'],
+            readPreference: 'primaryPreferred'
+        }
+    }
+
+}
+
 
 @Model('Alert', Transform.Automatic, null, false)
 class AlertModel extends Repo<AlertModel> {
@@ -15,8 +32,7 @@ class AlertModel extends Repo<AlertModel> {
 
     @Field('_id')
     public id: string;
-
-    @ObjectId()
+    
     @Field('alert.title')
     public alert_title: string;
 
@@ -30,10 +46,6 @@ class AlertModel extends Repo<AlertModel> {
 }
 
 
-
-
-
-
 describe('test the odm', function () {
 
     it('transform string(number) value to number', async () => {
@@ -43,7 +55,8 @@ describe('test the odm', function () {
             "alert.count": count,
             "alert.count_index": count,
         };
-        const returnData = await Repo.insert<AlertModel>(new AlertModel(data, AlertModel));
+        const modelData = new AlertModel(data, AlertModel);
+        const returnData = await Repo.insert<AlertModel>(modelData);
         expect(returnData['alert.count']).to.equal(+count);
         expect(returnData['alert.count_index']).to.equal(+count);
     });
@@ -55,7 +68,8 @@ describe('test the odm', function () {
             "alert.count": count,
             "alert.count_index": count,
         };
-        const returnData = await Repo.insert<AlertModel>(new AlertModel(data, AlertModel));
+        const modelData = new AlertModel(data, AlertModel);
+        const returnData = await Repo.insert<AlertModel>(modelData);
         expect(returnData['alert.count']).to.equal(count);
         expect(returnData['alert.count_index']).to.equal(count);
     });

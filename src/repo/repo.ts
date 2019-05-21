@@ -35,9 +35,9 @@ export abstract class Repo<T> /*implements IRepo*/ {
         }
 
         // this.odm = getOdm(modelType);
-        if (!this.odm) {
-            throw (new Error('class model information is missing, are you using a data model?'));
-        }
+        // if (!this.odm) {
+        //     throw (new Error('class model information is missing, are you using a data model?'));
+        // }
     }
 
     static cleanOdm(data) {
