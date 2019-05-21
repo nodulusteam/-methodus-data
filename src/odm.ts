@@ -25,8 +25,31 @@ export function getOdm<T>(data: Array<{}> | {}): ODM<T> {
             odm = obj.modelType.odm;
         }
     }
+    (odm as any).schemaValidaor = buildScehmaValidator(odm.fields);
     return odm;
 }
+
+function buildScehmaValidator(fields: any) {
+    const schemaValidaor = {
+        validator: {}
+    };
+    const $and: any = [];
+    Object.keys(fields).forEach((key: any) => {
+        if (key !== '_id') {
+            const property: any = fields[key];
+            const fieldDetails: any = property.fieldDetails;
+            const type: any = fieldDetails && fieldDetails.type ? fieldDetails.type : property.type;
+            $and.push({
+                [property.propertyKey]: { $type: (type as string).toLowerCase() }
+            });
+        }
+    });
+    schemaValidaor.validator = {
+        $and
+    };
+    return schemaValidaor;
+}
+
 export class Odm {
     static applyODM(odm: ODM, filter: any) {
         let propertyKey = filter.filter_by;
@@ -41,7 +64,7 @@ export class Odm {
         if (odm && filter) {
             Object.keys(filter).forEach((key) => {
                 if (odm.fields[key] && odm.fields[key].fieldDetails &&
-                    odm.fields[key].fieldDetails.type === ElementType.identifier && filter[key]._bsontype !== 'ObjectID') {
+                    odm.fields[key].fieldDetails.type === ElementType.identifier && filter[key]._bsontype !== ElementType.objectid) {
                     FilterServerUtility.singleOrArray(filter, ObjectID, key);
                 } else if (odm.fields[key] && odm.fields[key].fieldDetails && odm.fields[key].fieldDetails.type === ElementType.number) {
                     FilterServerUtility.singleOrArray(filter, Odm.parseToNumber, key);
@@ -84,9 +107,9 @@ export class Odm {
                 }).pop();
                 const transformOutMap = metadata.fields[keyElementMeta] || new MetadataField();
                 // transform normal string to bson type
-                if (transformOutMap.fieldDetails.param === 'objectid') {
+                if (transformOutMap.fieldDetails.param === ElementType.objectid.toLowerCase()) {
                     element[transformOutMap.displayName] = this.applyObjectID(element[transformOutMap.displayName]);
-                } else if (transformOutMap.fieldDetails.param === 'number') {
+                } else if (transformOutMap.fieldDetails.param === ElementType.number) {
                     element[transformOutMap.displayName] = this.parseToNumber(element[transformOutMap.displayName]);
                 }
                 return Object.assign(this.transformValue(element, currentValue, transformOutMap, transformOutMap.propertyKey), previousValue);
@@ -94,7 +117,7 @@ export class Odm {
                 // TransformDirection.OUT
                 const transformOutMap = metadata.fields[currentValue] || new MetadataField();
                 // transform bson type to normal string
-                if (transformOutMap.fieldDetails && transformOutMap.fieldDetails.param === 'objectid') {
+                if (transformOutMap.fieldDetails && transformOutMap.fieldDetails.param === ElementType.objectid.toLowerCase()) {
                     element[transformOutMap.propertyKey] = element[transformOutMap.propertyKey]
                         ? element[transformOutMap.propertyKey].toString() : element[transformOutMap.propertyKey];
                 }

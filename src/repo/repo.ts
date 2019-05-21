@@ -19,7 +19,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
          * copy constructor
          */
         if (modelType) {
-            this.modelType = modelType;
+            (this as any).__proto__.modelType = modelType;
         }
 
         if (!data) {
@@ -34,7 +34,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
             });
         }
 
-        this.odm = getOdm(modelType);
+        // this.odm = getOdm(modelType);
         if (!this.odm) {
             throw (new Error('class model information is missing, are you using a data model?'));
         }
@@ -140,6 +140,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
         data = this.cleanOdm(data);
 
         let result;
+        await this.createCollection(dbConnection, odm.collectionName, (odm as any).schemaValidaor);
         if (Array.isArray(data)) {
             result = await dbConnection.collection(odm.collectionName).insertMany(data);
         } else {
@@ -153,6 +154,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
 
         return inserted;
     }
+
 
     /**
      *
@@ -237,9 +239,6 @@ export abstract class Repo<T> /*implements IRepo*/ {
                     upsert,
                 });
 
-
-
-
         // proccess data after update/replace: transform out, merge and emit if needed
         if (recordBefore && recordBefore.ok && recordBefore.value) {
             const recordBeforeTransformed = this.transformOut(odm, recordBefore.value);
@@ -251,7 +250,6 @@ export abstract class Repo<T> /*implements IRepo*/ {
             return finaltransform;
         }
     }
-
 
     static async updateMany<T>(filter: any, updateData: T, upsert: boolean = false) {
         const odm: any = getOdm<T>(updateData) || this.odm;
@@ -305,4 +303,10 @@ export abstract class Repo<T> /*implements IRepo*/ {
         return await query.run(returnType);
     }
 
+    static async createCollection(db: any, collName: string, validator: any) {
+        const collections = await db.collections();
+        if (!collections.map(c => c.s.name).includes(collName)) {
+            await db.createCollection(collName,validator);
+        }
+    }
 }
