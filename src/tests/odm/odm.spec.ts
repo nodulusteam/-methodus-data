@@ -20,33 +20,31 @@ DBHandler.config = {
 
 }
 
-
-
 @Model('UserRole')
 export class UserRole extends Repo<UserRole> {
     @ObjectId()
     @Field('id')
-    public _id: string;
+    public _id?: string;
 
     @IsoDate()
     @Field()
-    public created_at: Date;
+    public created_at?: Date;
 
     @Field()
-    public created_by: string;
+    public created_by?: string;
 
     @Field()
-    public role: string;
+    public role?: string;
 
     @Field()
-    public level: string;
+    public level?: string;
 
     @Field()
-    public name: string;
+    public name?: string;
 
     @Number(null, 'double')
     @Field()
-    public order: number;
+    public order?: number;
     constructor(data?) {
         super(data, UserRole);
     }
@@ -59,16 +57,25 @@ describe('odm', () => {
         alert = new Alert();
     })
 
-    it('should clean odm without transform if', async () => {
+    it('schema field validator full data', async () => {
         const role = new UserRole({
             name: 'test',
             created_at: new Date(),
-            created_by:'Ron Okavi',
-            role:'role',
-            level:'1',
-            order:8.8
+            created_by: 'Ron Okavi',
+            role: 'role',
+            level: '1',
+            order: 8.8
         });
-        const result:any = await role.insert();
+        const result: any = await role.insert();
+        expect(result.order).to.be.equal(role.order);
+    });
+
+    it('schema field validator partial data', async () => {
+        const role = new UserRole({
+            name: 'test',
+            created_at: new Date(),
+        });
+        const result: any = await role.insert();
         expect(result.order).to.be.equal(role.order);
     });
 
@@ -76,14 +83,17 @@ describe('odm', () => {
         const metadata: ODM<Alert> = Reflect.getOwnMetadata('odm', Alert);
         expect(metadata.collectionName).to.be.equal('Alert');
     })
+
     it('should add collection name to model metadata', () => {
         const metadata: ODM<Alert> = Reflect.getOwnMetadata('odm', Alert);
         expect(metadata.collectionName).to.be.equal('Alert');
     });
+
     it('should add id field for model metadata', () => {
         const metadata: ODM<Alert> = Reflect.getOwnMetadata('odm', Alert);
         expect(typeof metadata.fields['_id']).to.be.equal('object');
     });
+
     it('should add id field details for model metadata', () => {
         const metadata: ODM<Alert> = Reflect.getOwnMetadata('odm', Alert);
         expect(metadata.fields['_id'].displayName).to.be.equal('id');

@@ -47,7 +47,7 @@ function buildScehmaValidator(fields: any) {
     schemaValidaor.validator = {
         $and
     };
-    return schemaValidaor;
+    return Object.assign(schemaValidaor, { validationAction: 'warn' });
 }
 
 export class Odm {
