@@ -6,6 +6,7 @@ import { logger } from './logger';
 import { FilterServerUtility } from './filter/';
 import { ElementType } from './enums';
 
+
 export function getOdm<T>(data: Array<{}> | {}): ODM<T> {
     const obj: any = Array.isArray(data) ? data[0] : data;
     let proto = obj.prototype;
@@ -25,10 +26,22 @@ export function getOdm<T>(data: Array<{}> | {}): ODM<T> {
             odm = obj.modelType.odm;
         }
     }
-    if(odm && odm.fields){
+    if (odm && odm.fields) {
         (odm as any).schemaValidaor = buildScehmaValidator(odm.fields);
     }
     return odm;
+}
+
+function includeInMongoTypes(type: string) {
+    const mongoFields = ['double',
+    'string', 'object', 'array', 'binData', 'objectId',
+    'bool', 'date', 'null', 'regex', 'javascript', 'javascriptWithScope',
+    'int', 'timestamp', 'long', 'minKey', 'maxKey'];
+    const returnType = type.toLowerCase();
+    if(mongoFields.includes(returnType)){
+        return returnType;
+    }
+    return 'object';
 }
 
 function buildScehmaValidator(fields: any) {
@@ -40,9 +53,9 @@ function buildScehmaValidator(fields: any) {
         if (key !== '_id') {
             const property: any = fields[key];
             const fieldDetails: any = property.fieldDetails;
-            const type: any = fieldDetails && fieldDetails.type && fieldDetails.type !== 'weight' ? fieldDetails.type : property.type;
+            const type: any = fieldDetails && fieldDetails.type ? includeInMongoTypes(fieldDetails.type) : includeInMongoTypes(property.type);
             $and.push({
-                [property.propertyKey]: { $type: (type as string).toLowerCase() }
+                [property.propertyKey]: { $type: type }
             });
         }
     });

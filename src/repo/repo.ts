@@ -45,6 +45,19 @@ export abstract class Repo<T> /*implements IRepo*/ {
         delete data.modelType;
         try {
             delete data.__proto__.odm;
+            Object.keys(data).forEach((key: any) => {
+                if (typeof (data[key]) === 'object') {
+                    try {
+                        const item = data[key];
+                        delete item.odm;
+                        delete item.modelType;
+                        delete item.__proto__.odm;
+                    }
+                    catch (e) {
+                        logger.error(e);
+                    }
+                }
+            });
         } catch (e) {
             logger.error(e);
         }
@@ -101,10 +114,6 @@ export abstract class Repo<T> /*implements IRepo*/ {
                     returnOriginal: true,
                     upsert: true
                 });
-
-
-
-        // let result = await dbConnection.collection(odm.collectionName).save(data, {  returnOriginal: true,upsert: true });
 
         const changesData: any = ChangesEvent.findChanges(result, data);
         const eventData = new DataChangeEvent(odm.collectionName, changesData, data)
@@ -281,8 +290,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
         return result;
     }
 
-    private static async _find(odm: ODM, filter, returnType: ReturnType = ReturnType.Multi) {
-        // const odm = getOdm(this);
+    private static async _find(odm: ODM, filter, returnType: ReturnType = ReturnType.Multi) {        
         const connection = await DBHandler.getConnection(odm.connectionName);
         let result = await connection.collection(odm.collectionName).find(filter).toArray();
         return returnType === ReturnType.Single ? result[0] : result;
@@ -306,7 +314,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
     static async createCollection(db: any, collName: string, validator: any) {
         const collections = await db.collections();
         if (!collections.map(c => c.s.name).includes(collName)) {
-            await db.createCollection(collName,validator);
+            await db.createCollection(collName, validator);
         }
     }
 }
