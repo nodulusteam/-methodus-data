@@ -290,7 +290,7 @@ export abstract class Repo<T> /*implements IRepo*/ {
         return result;
     }
 
-    private static async _find(odm: ODM, filter, returnType: ReturnType = ReturnType.Multi) {        
+    private static async _find(odm: ODM, filter, returnType: ReturnType = ReturnType.Multi) {
         const connection = await DBHandler.getConnection(odm.connectionName);
         let result = await connection.collection(odm.collectionName).find(filter).toArray();
         return returnType === ReturnType.Single ? result[0] : result;
@@ -314,7 +314,12 @@ export abstract class Repo<T> /*implements IRepo*/ {
     static async createCollection(db: any, collName: string, validator: any) {
         const collections = await db.collections();
         if (!collections.map(c => c.s.name).includes(collName)) {
-            await db.createCollection(collName, validator);
+            try {
+                await db.createCollection(collName, validator);
+            } catch (error) {
+                logger.error(error);
+                await db.createCollection(collName);
+            }
         }
     }
 }
