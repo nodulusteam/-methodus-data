@@ -47,7 +47,7 @@
                 "--debug",
                 "--inspect",
                 "--no-timeouts",
-                "tests/query/index.spec.js"
+                "build/tests/query/index.spec.js"
             ],
             "sourceMaps": true,
             // Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.

@@ -107,6 +107,7 @@ describe('check the following methods: between, and, or, paging, filter', () => 
 
     function alertsData() {
         return [
+            { "id": "100020013", "severity": "critical" },
             { "id": "100020014", "severity": "low" },
             { "id": "100020015", "severity": "critical", company_name: 'POC', created_by_name: 'LidoR11 Achiyosef' },
             { "id": "100020016", "severity": "low" },

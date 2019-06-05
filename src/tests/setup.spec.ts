@@ -78,11 +78,13 @@ export async function truncateCollections() {
     console.log('Removing all collections from db');
     connection = await getConnection();
     const names = (await connection.listCollections({}).toArray()).map((collection: any) => collection.name);
-
     if (names.length === 0) {
         console.log('No collections were found in db to remove');
         return;
     }
-    await Promise.all(names.map((collectionName: any) => connection.collection(collectionName).drop()));
-    console.log(`Removed all collections from db: ${names}`);
+    try {
+        await Promise.all(names.map((collectionName: any) => connection.collection(collectionName).drop()));
+        console.log(`Removed all collections from db: ${names}`);
+    }
+    finally{}
 }
