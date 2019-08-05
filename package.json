@@ -1,7 +1,7 @@
 {
   "name": "@methodus/data",
-  "version": "2.0.23",
-  "description": "Mongodb / Cosmosdb data access Modeling ",
+  "version": "2.0.24",
+  "description": "Mongodb / Cosmosdb data access Modeling for Methodus",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -16,14 +16,17 @@
   },
   "author": "",
   "license": "ISC",
+  "peerDependencies": {
+    "logelas": "^4.x.x"
+  },
   "dependencies": {
-    "debug": "^2.6.8",
+    "@types/mongodb": "*",
     "escape-string-regexp": "^1.0.5",
     "flat": "^4.0.0",
     "generic-pool": "^3.3.0",
     "is-buffer": "^1.1.6",
     "lodash": "^4.17.4",
-    "mongodb": "^3.1.4",
+    "mongodb": "^3.2.7",
     "obj-stringify": "^1.0.0",
     "object-diff": "0.0.4",
     "reflect-metadata": "^0.1.10"
@@ -32,7 +35,6 @@
     "@types/chai": "^4.0.0",
     "@types/lodash": "^4.14.116",
     "@types/mocha": "^2.2.41",
-    "@types/mongodb": "^3.1.4",
     "@types/node": "^10.0.0",
     "chai": "^3.5.0",
     "cross-env": "^5.0.5",

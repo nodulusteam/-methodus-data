@@ -270,7 +270,7 @@ export class Query {
      * @param {boolean} preserveNullAndEmptyArrays - Optional. If true, if the path is null, missing, or an empty array, $unwind outputs the document. If false, $unwind does not output a document if the path is null, missing, or an empty array.
      */
     unwind(_path: string, _includeArrayIndex?: string, _preserveNullAndEmptyArrays?: boolean): Query {
-        
+
         let unwind: IUnWind = { path: _path, includeArrayIndex: _includeArrayIndex, preserveNullAndEmptyArrays: _preserveNullAndEmptyArrays };
         if (unwind) {
             if (!unwind.includeArrayIndex) {
@@ -503,7 +503,7 @@ export class Query {
     }
 
     private getAggregationOptions(additionalOptions: {} = {}) {
-        return Object.assign({ collation: { locale: 'en_US', strength: 3 } }, additionalOptions);
+        return Object.assign({}, additionalOptions);
     }
 }
 
