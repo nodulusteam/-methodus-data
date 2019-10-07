@@ -1,5 +1,5 @@
 *
-!src/*
+!build/**/*
 !package.json
 !.travis.yml
 !readme.md

@@ -1,13 +1,8 @@
-*.js
-*.js.map
-!/tests/config/*.js
-!/tests/data/*.js
-!/.vscode/*
-node_modules
-*.log
-/**/*.d.ts
+*
+!package.json
+!src/**/*
+!.travis.yml
+!readme.md
+!sonar-project.properties
+!.vscode
 
-.nyc_output/
-.scannerwork/
-coverage/
-yarn.lock
