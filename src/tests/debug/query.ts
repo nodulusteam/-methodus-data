@@ -1,6 +1,5 @@
 // tests/config.js
 const path = require('path');
-process.env.NODE_CONFIG_DIR = path.join(__dirname, '../', 'config');
 
 
 var chai = require('chai');
@@ -137,11 +136,7 @@ class Alert extends Repo<Alert> {
 
 
 
-// process.env.NODE_CONFIG_DIR = path.join(__dirname, '../', 'env');
-// process.env.TEST = true;
-// process.env.NODE_ENV = 'debug';
-// process.env.NODE_CONFIG_ENV = 'local';
-// process.env.NODE_LOG_DIR = './logs';
+ 
 
 
 

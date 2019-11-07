@@ -1,5 +1,4 @@
 const path = require('path');
-process.env.NODE_CONFIG_DIR = path.resolve('./tests/config');
 const config: any = {
     db: {
         mongo: {
@@ -32,7 +31,7 @@ let connection: any = null;
 
 export async function getConnection(): Promise<any> {
     return new Promise((resolve, reject) => {
-        mongo.MongoClient.connect(config.db.mongo.server, { poolSize: 10 }, function (err: any, client: any) {
+        mongo.MongoClient.connect(config.db.mongo.server, { poolSize: 10, useUnifiedTopology: true }, function (err: any, client: any) {
             if (err) {
                 return reject(err);
             }
@@ -86,5 +85,5 @@ export async function truncateCollections() {
         await Promise.all(names.map((collectionName: any) => connection.collection(collectionName).drop()));
         console.log(`Removed all collections from db: ${names}`);
     }
-    finally{}
+    finally { }
 }

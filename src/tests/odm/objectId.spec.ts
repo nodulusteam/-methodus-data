@@ -1,6 +1,5 @@
 // tests/config.js
 const path = require('path');
-process.env.NODE_CONFIG_DIR = path.join(__dirname, '../', 'config');
 
 
 var chai = require('chai');
@@ -38,7 +37,6 @@ class Alert {
 describe('test the odm', function () {
     it('filter using ObjectID', function () {
 
-        process.env.NODE_CONFIG_DIR = path.join(__dirname, '../', 'env');
 
 
         process.env.TEST = 'true';

@@ -28,7 +28,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -60,7 +59,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -92,7 +90,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -111,7 +108,7 @@
                 "--debug",
                 "--inspect",
                 "--no-timeouts",
-                "tests/debug/query.js"
+                "build/tests/debug/query.js"
             ],
             "sourceMaps": true,
             // Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
@@ -124,7 +121,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -156,7 +152,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -188,7 +183,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -220,7 +214,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -252,7 +245,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -284,7 +276,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -316,7 +307,6 @@
                 "DEBUG": "tmla:methodus",
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "local",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         },
         {
@@ -349,7 +339,6 @@
                 "NODE_ENV": "debug",
                 "NODE_CONFIG_ENV": "d2d",
                 "NODE_CONFIG_VAR": "d2d",
-                "NODE_CONFIG_DIR": "${workspaceRoot}/tests/config/"
             }
         }
     ]

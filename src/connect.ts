@@ -83,11 +83,11 @@ export class DBHandler {
         const dbOptions: {} = {};
         const defaultOptions = [
             { poolSize: 10 },
-            { replicaSet: 'tmla' },
-            { ssl: true },
+            { ssl: false },
             { readPreference: ReadPreference.PRIMARY_PREFERRED },
             { user: undefined },
             { password: undefined },
+            { useUnifiedTopology: true }
         ];
 
         defaultOptions.forEach((option) => {

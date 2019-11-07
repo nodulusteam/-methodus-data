@@ -1,7 +1,5 @@
-// tests/config.js
 const path = require('path');
-process.env.NODE_CONFIG_DIR = path.join(__dirname, '../', 'config');
-
+ 
 
 var chai = require('chai');
 var expect = chai.expect; // we are using the 'expect' style of Chai
@@ -42,7 +40,6 @@ class Alert extends InjestedAlert {
 describe('test the odm', function () {
     it('filter using ObjectID', function () {
 
-        process.env.NODE_CONFIG_DIR = path.join(__dirname, '../', 'env');
 
 
         process.env.TEST = 'true';
