@@ -51,7 +51,7 @@ export class DBHandler {
             if (config.connections && config.connections[connectionName]) {
                 dbAddress = `${config.connections[connectionName].server}/${config.connections[connectionName].db}`;
                 const options: any = this.getDbOptions(config.connections[connectionName]);
-                Object.assign(options, { useNewUrlParser: true });
+                Object.assign(options, { useNewUrlParser: true, useUnifiedTopology: true });
                 logger.info(this, `initiating DB connection to: ${dbAddress}`, options);
                 mongo.MongoClient.connect(dbAddress,
                     options
