@@ -83,6 +83,7 @@ export class DBHandler {
         const dbOptions: {} = {};
         const defaultOptions = [
             { poolSize: 10 },
+            { replicaSet: undefined },
             { ssl: false },
             { readPreference: ReadPreference.PRIMARY_PREFERRED },
             { user: undefined },
