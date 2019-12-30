@@ -9,6 +9,8 @@ import { DataChangeEvent } from '../changes';
 import { EventDataEmitter } from '../emitter';
 import { ChangesEvent } from '.';
 import { RepoHelper } from './repo-helper';
+import * as _Validator from 'class-validator';
+
 export abstract class Repo<T> /*implements IRepo*/ {
     private dataArray: any;
     private static odm: Odm;
@@ -38,8 +40,20 @@ export abstract class Repo<T> /*implements IRepo*/ {
         // }
     }
 
+    public async validate(item) {
+        const result = await _Validator.validate(item);
+        if (result.length > 0) {
+            const constraints = result.map((item) => {
+                return Object.values(item.constraints).join(';');
+            })
+            return constraints;
+        }
+        return true;
+    }
 
-    
+
+
+
     /**
      *
      * @param odm - decleare the properties of the class and collection name

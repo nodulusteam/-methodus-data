@@ -38,22 +38,22 @@ export function QueryFragment(filter): any {
     return new QueryFragmentElement(filter);
 }
 
-/** the ObjectId decorator registers the model with the odm
- *  @param {string} name - the name of the db (mongo) collection.
+/** Query object is used to perform data queries.
+ *   
  */
 export class Query {
     private transformAfterRun: boolean = false;
     private unTransformAfterRun: boolean = false;
     dbHandler: DBHandler;
     dbConnection: any;
-    // private arrayActions: Array<any>;
+     
     odm: ODM;
     model: any;
     private isPaging: boolean = false;
     allowDiskUse: boolean = true;
     private queryHelper: QueryHelper;
-    /** the ObjectId decorator registers the model with the odm
-     *  @param {string} name - the name of the db (mongo) collection.
+    /** The collection for the query to execute against
+     *  @param {string} collectionName - the name of the db (mongo) collection.
      */
     constructor(private collectionName?: string | any) {
         this.queryHelper = new QueryHelper();

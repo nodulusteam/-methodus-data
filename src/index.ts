@@ -9,3 +9,5 @@ export * from './changes/';
 export * from './odm';
 export * from './emitter';
 export * from './logger';
+import * as _Validator from 'class-validator';
+export const Validator = _Validator;
