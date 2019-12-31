@@ -8,3 +8,4 @@ export * from './objectid';
 export * from './virtual';
 export * from './connection';
 export * from './number';
+export * from './validator';

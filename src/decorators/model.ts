@@ -6,6 +6,7 @@ const metadataKey: string = 'odm';
 import { Transform, TransformDirection } from '../enums/';
 import { DBHandler } from '../connect';
 import * as _ from 'lodash';
+import { validate } from './validator';
 
 
 /** the model decorator registers the model with the odm
@@ -28,7 +29,7 @@ export function Model<T>(collectionName: string, transform: Transform = Transfor
         odm.broadcastChanges = broadcastChanges;
         Reflect.defineMetadata(metadataKey, odm, target);
         // TODO: To be removed if not needed
-
+        target.prototype['validate'] = validate;
         target.odm = odm;
         target.prototype.odm = odm;
         // TODO:Ron: global as any????

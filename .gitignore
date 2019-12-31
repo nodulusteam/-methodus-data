@@ -1,8 +1,4 @@
-*
-!package.json
-!src/**/*
-!.travis.yml
-!readme.md
-!sonar-project.properties
-!.vscode
-
+node_modules
+build
+coverage/
+.nyc_output/

@@ -1,15 +1,15 @@
+import * as _ from 'lodash';
 import { DBHandler } from '../connect';
 import { Query } from '../query/query';
 import { Odm, getOdm } from '../odm';
 import { ODM } from '../odm-models';
 import { ReturnType } from '../enums/';
-import * as _ from 'lodash';
 import { logger } from '../logger';
 import { DataChangeEvent } from '../changes';
 import { EventDataEmitter } from '../emitter';
-import { ChangesEvent } from '.';
+import { ChangesEvent } from './changes-event';
 import { RepoHelper } from './repo-helper';
-import * as _Validator from 'class-validator';
+
 
 export abstract class Repo<T> /*implements IRepo*/ {
     private dataArray: any;
@@ -33,30 +33,11 @@ export abstract class Repo<T> /*implements IRepo*/ {
                 this[key] = data[key];
             });
         }
-
-        // this.odm = getOdm(modelType);
-        // if (!this.odm) {
-        //     throw (new Error('class model information is missing, are you using a data model?'));
-        // }
     }
-
-    public async validate(item) {
-        const result = await _Validator.validate(item);
-        if (result.length > 0) {
-            const constraints = result.map((item) => {
-                return Object.values(item.constraints).join(';');
-            })
-            return constraints;
-        }
-        return true;
-    }
-
-
-
 
     /**
      *
-     * @param odm - decleare the properties of the class and collection name
+     * @param odm - declare the properties of the class and collection name
      * @param data - data to save into collection
      * @param dbConnection - connection to database
      */
