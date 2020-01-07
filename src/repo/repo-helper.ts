@@ -1,4 +1,3 @@
-import { logger } from '../logger';
 import { ODM } from '../odm-models';
 import { Odm } from '../odm';
 import { TransformDirection, Transform } from '../enums/';
@@ -19,12 +18,14 @@ export class RepoHelper {
                         delete item.__proto__.odm;
                     }
                     catch (e) {
-                        logger.error(e);
+                        // no need to log this
+                        // logger.error(e);
                     }
                 }
             });
         } catch (e) {
-            logger.error(e);
+            // no need to log this
+            // logger.error(e);
         }
         return data;
     }

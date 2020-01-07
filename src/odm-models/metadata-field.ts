@@ -1,4 +1,6 @@
-import { FieldDetails, LookupDetails } from './';
+import { FieldDetails } from './field-details';
+import { LookupDetails } from './lookup-details';
+
 export class MetadataField<T = any> {
     displayName: string;
     propertyKey: string;
